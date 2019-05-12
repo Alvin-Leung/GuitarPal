@@ -1,12 +1,16 @@
+import { Button, Intent } from "@blueprintjs/core";
 import React from "react";
-import { LoadingScreen } from "./LoadingScreen/LoadingScreen";
+import { Container } from "react-bootstrap";
 import "./App.css";
+import { Navbar } from "./Navbar/Navbar";
+import { CardColumn } from "./CardColumn/CardColumn";
 
 const App: React.FC = () => {
   return (
-    <div>
-      <LoadingScreen />
-    </div>
+    <Container fluid={true}>
+      <Navbar />
+      <CardColumn />
+    </Container>
   );
 };
 
