@@ -6,7 +6,7 @@ import "./LoadingScreen.css";
 export const LoadingScreen: React.FC = () => {
     return (
       <div>
-        <div className="center">
+        <div className="totally-centered">
           <img
             src={ElectricGuitarIcon}
             alt="Electric guitar"
