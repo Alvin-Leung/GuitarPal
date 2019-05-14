@@ -16,7 +16,7 @@ export class GoalCardColumn extends React.Component<IGoalCardColumnProps> {
           <Row>
             <Col xs={6}>
               <span className="btn btn-sm">
-                <b>3</b> Goals
+                Goal Pool
               </span>
             </Col>
             <Col xs={6}>
