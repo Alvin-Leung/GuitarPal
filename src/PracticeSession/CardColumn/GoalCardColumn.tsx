@@ -8,6 +8,11 @@ export interface IGoalCardColumnProps {
 }
 
 export class GoalCardColumn extends React.Component<IGoalCardColumnProps> {
+  onAddNew = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
+    console.log("New goal card will be added");
+    console.log(event);
+  };
+
   render() {
     return (
       <CardColumn
@@ -15,13 +20,18 @@ export class GoalCardColumn extends React.Component<IGoalCardColumnProps> {
         header={
           <Row>
             <Col xs={6}>
-              <span className="btn btn-sm">
-                Goal Pool
-              </span>
+              <span className="btn btn-sm">Goal Pool</span>
             </Col>
             <Col xs={6}>
               <span className="float-right align-bottom">
-                <Button intent={Intent.PRIMARY} minimal={true} icon="plus" />
+                <Button
+                  intent={Intent.PRIMARY}
+                  minimal={true}
+                  icon="plus"
+                  onClick={this.onAddNew}
+                >
+                  New
+                </Button>
               </span>
             </Col>
           </Row>
