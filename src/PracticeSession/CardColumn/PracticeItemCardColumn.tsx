@@ -17,7 +17,7 @@ export class PracticeItemCardColumn extends React.Component<IPracticeCardColumnP
           <Row>
             <Col xs={6}>
               <span className="btn btn-sm">
-                <b>2</b> Practice Items
+                <b>{React.Children.count(this.props.children)}</b> Practice Items
               </span>
             </Col>
             <Col xs={6}>
