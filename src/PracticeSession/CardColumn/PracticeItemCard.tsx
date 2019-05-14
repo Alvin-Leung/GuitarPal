@@ -1,17 +1,17 @@
+import { Card, Elevation } from "@blueprintjs/core";
 import { TimePicker } from "@blueprintjs/datetime";
 import React from "react";
 import { Col, Row } from "react-bootstrap";
-import { AbstractCard } from "./AbstractCard";
 import { ICardProps } from "./Interfaces";
 
 export interface IPracticeItemCardProps extends ICardProps {
   timeIntervalInMinutes: number;
 }
 
-export class PracticeItemCard extends AbstractCard<IPracticeItemCardProps> {
-  generateCardContent(): React.ReactNode {
+export class PracticeItemCard extends React.Component<IPracticeItemCardProps> {
+  render(): React.ReactNode {
     return (
-      <div>
+      <Card interactive={true} elevation={Elevation.TWO} className="mt-2">
         <Row>
           <Col xs={6}>
             <span>
@@ -31,7 +31,7 @@ export class PracticeItemCard extends AbstractCard<IPracticeItemCardProps> {
             <p>{this.props.description}</p>
           </Col>
         </Row>
-      </div>
+      </Card>
     );
   }
 }

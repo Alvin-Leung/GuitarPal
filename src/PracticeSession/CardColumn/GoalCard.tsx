@@ -1,16 +1,15 @@
+import { Intent, ProgressBar, Card, Elevation } from "@blueprintjs/core";
 import React from "react";
-import { ProgressBar, Intent, Elevation, Card } from "@blueprintjs/core";
 import { ICardProps } from "./Interfaces";
-import { AbstractCard } from "./AbstractCard";
 
 export interface IGoalCardProps extends ICardProps {
   progress: number;
 }
 
-export class GoalCard extends AbstractCard<IGoalCardProps> {
-  generateCardContent(): React.ReactNode {
+export class GoalCard extends React.Component<IGoalCardProps> {
+  render(): React.ReactNode {
     return (
-      <div>
+      <Card interactive={true} elevation={Elevation.TWO} className="mt-2">
         <h5>
           <a href="#">{this.props.title}</a>
         </h5>
@@ -21,7 +20,7 @@ export class GoalCard extends AbstractCard<IGoalCardProps> {
           value={this.props.progress}
           className="mt-3"
         />
-      </div>
+      </Card>
     );
   }
 }
