@@ -4,11 +4,7 @@ import React from "react";
 import { Col, Row } from "react-bootstrap";
 import { ICardProps } from "./Interfaces";
 
-export interface IPracticeItemCardProps extends ICardProps {
-  timeIntervalInMinutes: number;
-}
-
-export class PracticeItemCard extends React.Component<IPracticeItemCardProps> {
+export class PracticeItemCard extends React.Component<ICardProps> {
   render(): React.ReactNode {
     return (
       <Card interactive={true} elevation={Elevation.TWO} className="mt-2">

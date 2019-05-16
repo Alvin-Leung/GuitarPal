@@ -3,11 +3,9 @@ import React from "react";
 import { Col, Row } from "react-bootstrap";
 import { GoalCard, IGoalCardProps } from "./CardColumn/GoalCard";
 import { GoalCardColumn } from "./CardColumn/GoalCardColumn";
-import {
-  IPracticeItemCardProps,
-  PracticeItemCard
-} from "./CardColumn/PracticeItemCard";
+import { PracticeItemCard } from "./CardColumn/PracticeItemCard";
 import { PracticeItemCardColumn } from "./CardColumn/PracticeItemCardColumn";
+import { ICardProps } from "./CardColumn/Interfaces";
 
 export class Wizard extends React.Component {
   private goalCardProps: IGoalCardProps[] = [
@@ -27,16 +25,14 @@ export class Wizard extends React.Component {
       progress: 0
     }
   ];
-  private practiceItemProps: IPracticeItemCardProps[] = [
+  private practiceItemProps: ICardProps[] = [
     {
       title: "Learn Purple Haze",
-      description: "Play along with song and nail solo",
-      timeIntervalInMinutes: 30
+      description: "Play along with song and nail solo"
     },
     {
       title: "Increase picking speed",
-      description: "Practice Paul Gilbert speed picking exericse",
-      timeIntervalInMinutes: 20
+      description: "Practice Paul Gilbert speed picking exericse"
     }
   ];
 
