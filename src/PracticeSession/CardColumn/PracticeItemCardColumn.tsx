@@ -3,12 +3,11 @@ import { Col, Row } from "react-bootstrap";
 import { CardColumn } from "./CardColumn";
 
 export interface IPracticeCardColumnProps {
+  readonly totalPracticeMinutes: number;
   readonly bootstrapColumnWidth: number;
 }
 
 export class PracticeItemCardColumn extends React.Component<IPracticeCardColumnProps> {
-  private totalPracticeMinutes: number = 50;
-
   render() {
     return (
       <CardColumn
@@ -22,11 +21,12 @@ export class PracticeItemCardColumn extends React.Component<IPracticeCardColumnP
             </Col>
             <Col xs={6}>
               <span className="float-right btn btn-sm">
-                <em>Total Time: {this.totalPracticeMinutes} mins</em>
+                <em>Total Time: {this.props.totalPracticeMinutes} mins</em>
               </span>
             </Col>
           </Row>
         }
+
         cards={this.props.children}
       />
     );

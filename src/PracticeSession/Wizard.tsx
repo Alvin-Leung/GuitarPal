@@ -3,9 +3,8 @@ import React from "react";
 import { Col, Row } from "react-bootstrap";
 import { GoalCard, IGoalCardProps } from "./CardColumn/GoalCard";
 import { GoalCardColumn } from "./CardColumn/GoalCardColumn";
-import { PracticeItemCard } from "./CardColumn/PracticeItemCard";
+import { IPracticeItemCardProps, PracticeItemCard } from "./CardColumn/PracticeItemCard";
 import { PracticeItemCardColumn } from "./CardColumn/PracticeItemCardColumn";
-import { ICardProps } from "./CardColumn/Interfaces";
 
 export class Wizard extends React.Component {
   private goalCardProps: IGoalCardProps[] = [
@@ -25,7 +24,7 @@ export class Wizard extends React.Component {
       progress: 0
     }
   ];
-  private practiceItemProps: ICardProps[] = [
+  private practiceItemProps: IPracticeItemCardProps[] = [
     {
       title: "Learn Purple Haze",
       description: "Play along with song and nail solo"
@@ -45,7 +44,7 @@ export class Wizard extends React.Component {
           ))}
         </GoalCardColumn>
 
-        <PracticeItemCardColumn bootstrapColumnWidth={4}>
+        <PracticeItemCardColumn totalPracticeMinutes={51} bootstrapColumnWidth={4}>
           {this.practiceItemProps.map(props => (
             <PracticeItemCard {...props} />
           ))}

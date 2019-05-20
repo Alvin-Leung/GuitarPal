@@ -4,7 +4,16 @@ import React from "react";
 import { Col, Row } from "react-bootstrap";
 import { ICardProps } from "./Interfaces";
 
-export class PracticeItemCard extends React.Component<ICardProps> {
+export interface IPracticeItemCardProps extends ICardProps {
+  onTimeChange?: (newTime: Date) => void;
+}
+
+export class PracticeItemCard extends React.Component<IPracticeItemCardProps> {
+  public static defaultProps: IPracticeItemCardProps = {
+    title: "",
+    description: "",
+  };
+
   render(): React.ReactNode {
     return (
       <Card interactive={true} elevation={Elevation.TWO} className="mt-2">
@@ -18,7 +27,10 @@ export class PracticeItemCard extends React.Component<ICardProps> {
           </Col>
           <Col xs={6}>
             <span className="float-right">
-              <TimePicker selectAllOnFocus={true} />
+              <TimePicker
+                selectAllOnFocus={true}
+                onChange={this.props.onTimeChange}
+              />
             </span>
           </Col>
         </Row>
