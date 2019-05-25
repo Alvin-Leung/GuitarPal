@@ -5,15 +5,13 @@ import { Col, Row } from "react-bootstrap";
 import { ICardProps } from "./Interfaces";
 
 export interface IPracticeItemCardProps extends ICardProps {
-  practiceTime?: Date;
   onTimeChange?: (newTime: Date) => void;
 }
 
 export class PracticeItemCard extends React.Component<IPracticeItemCardProps> {
   public static defaultProps: IPracticeItemCardProps = {
     title: "",
-    description: "",
-    practiceTime: new Date(0, 0, 0, 0 ,0 ,0, 0)
+    description: ""
   };
 
   render(): React.ReactNode {
