@@ -14,9 +14,14 @@ interface IGoal extends IGoalCardProps {
   id: any;
 }
 
+interface IPracticeTime {
+  practiceItemId: string;
+  practiceTime: Date;
+}
+
 interface State {
   readonly practiceItems: IPracticeItem[],
-  readonly practiceTimes: Date[]
+  readonly practiceTimes: IPracticeTime[]
 }
 
 export class Wizard extends React.Component<any, State> {
@@ -75,7 +80,10 @@ export class Wizard extends React.Component<any, State> {
           ))}
         </GoalCardColumn>
 
-        <PracticeItemCardColumn totalPracticeMinutes={51} bootstrapColumnWidth={4}>
+        <PracticeItemCardColumn
+          totalPracticeMinutes={51}
+          bootstrapColumnWidth={4}
+        >
           {this.state.practiceItems.map(practiceItem => (
             <PracticeItemCard key={practiceItem.id} {...practiceItem} />
           ))}
