@@ -1,17 +1,17 @@
-import { Card, Elevation, Icon, Intent } from "@blueprintjs/core";
+import { Card, Elevation } from "@blueprintjs/core";
 import { TimePicker } from "@blueprintjs/datetime";
 import React from "react";
 import { Col, Row } from "react-bootstrap";
-import { ICardProps, CardState } from "./Interfaces";
 import "./Card.css";
-import { IconNames } from "@blueprintjs/icons";
+import { EditLink } from "./EditLink";
+import { ICardProps } from "./Interfaces";
 
 export interface IPracticeItemCardProps extends ICardProps {
   practiceTime: Date;
   onTimeChange: (newTime: Date, id: string) => void;
 }
 
-export class PracticeItemCard extends React.Component<IPracticeItemCardProps, CardState> {
+export class PracticeItemCard extends React.Component<IPracticeItemCardProps> {
   public static defaultProps: IPracticeItemCardProps = {
     id: "",
     title: "",
@@ -20,32 +20,12 @@ export class PracticeItemCard extends React.Component<IPracticeItemCardProps, Ca
     onTimeChange: () => {}
   };
 
-  public constructor(props: IPracticeItemCardProps) {
-    super(props);
-    this.state = {
-      isHoveringOverHeader: false
-    };
-  }
-
   public render(): React.ReactNode {
     return (
       <Card interactive={true} elevation={Elevation.TWO} className="mt-2">
         <Row>
           <Col xs={6}>
-            <span>
-              <h5>
-                <a
-                  onMouseEnter={this.handleMouseHover}
-                  onMouseLeave={this.handleMouseHover}
-                  href="#"
-                >
-                  {this.props.title}{" "}
-                  {this.state.isHoveringOverHeader && (
-                    <Icon icon={IconNames.EDIT} intent={Intent.PRIMARY} />
-                  )}
-                </a>
-              </h5>
-            </span>
+            <EditLink text={this.props.title} />
           </Col>
           <Col xs={6}>
             <span className="float-right">
@@ -68,11 +48,5 @@ export class PracticeItemCard extends React.Component<IPracticeItemCardProps, Ca
 
   private handleTimeChange = (newTime: Date) => {
     this.props.onTimeChange(newTime, this.props.id);
-  }
-
-  private handleMouseHover = () => {
-    this.setState({
-      isHoveringOverHeader: !this.state.isHoveringOverHeader
-    });
-  }
+  };
 }

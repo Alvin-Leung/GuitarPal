@@ -3,7 +3,3 @@ export interface ICardProps {
     title: string;
     description: string;
 }
-
-export interface CardState {
-  readonly isHoveringOverHeader: boolean;
-}
