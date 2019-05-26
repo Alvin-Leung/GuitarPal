@@ -5,16 +5,20 @@ import { Col, Row } from "react-bootstrap";
 import { ICardProps } from "./Interfaces";
 
 export interface IPracticeItemCardProps extends ICardProps {
-  onTimeChange?: (newTime: Date) => void;
+  practiceTime: Date;
+  onTimeChange: (newTime: Date, id: string) => void;
 }
 
 export class PracticeItemCard extends React.Component<IPracticeItemCardProps> {
   public static defaultProps: IPracticeItemCardProps = {
+    id: "",
     title: "",
-    description: ""
+    description: "",
+    practiceTime: new Date(0, 0, 0, 0, 0, 0, 0),
+    onTimeChange: () => {}
   };
 
-  render(): React.ReactNode {
+  public render(): React.ReactNode {
     return (
       <Card interactive={true} elevation={Elevation.TWO} className="mt-2">
         <Row>
@@ -29,7 +33,8 @@ export class PracticeItemCard extends React.Component<IPracticeItemCardProps> {
             <span className="float-right">
               <TimePicker
                 selectAllOnFocus={true}
-                onChange={this.props.onTimeChange}
+                onChange={this.handleTimeChange}
+                value={this.props.practiceTime}
               />
             </span>
           </Col>
@@ -41,5 +46,9 @@ export class PracticeItemCard extends React.Component<IPracticeItemCardProps> {
         </Row>
       </Card>
     );
+  }
+
+  private handleTimeChange = (newTime: Date) => {
+    this.props.onTimeChange(newTime, this.props.id);
   }
 }

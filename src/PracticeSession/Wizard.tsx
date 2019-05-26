@@ -3,29 +3,26 @@ import React from "react";
 import { Col, Row } from "react-bootstrap";
 import { GoalCard, IGoalCardProps } from "./CardColumn/GoalCard";
 import { GoalCardColumn } from "./CardColumn/GoalCardColumn";
-import { IPracticeItemCardProps, PracticeItemCard } from "./CardColumn/PracticeItemCard";
+import { PracticeItemCard } from "./CardColumn/PracticeItemCard";
 import { PracticeItemCardColumn } from "./CardColumn/PracticeItemCardColumn";
+import { ICardProps } from "./CardColumn/Interfaces";
+import { TotalTimeBuilder, ITotalTime } from "./CardColumn/TotalTimeBuilder";
 
-interface IPracticeItem extends IPracticeItemCardProps {
-  id: string;
+interface IPracticeItem extends ICardProps{
+
 }
 
-interface IGoal extends IGoalCardProps {
-  id: any;
-}
-
-interface IPracticeTime {
-  practiceItemId: string;
-  practiceTime: Date;
+interface IPracticeTimeLookup {
+  [practiceItemId: string]: Date
 }
 
 interface State {
   readonly practiceItems: IPracticeItem[],
-  readonly practiceTimes: IPracticeTime[]
+  readonly practiceTimes: IPracticeTimeLookup
 }
 
 export class Wizard extends React.Component<any, State> {
-  private goalCards: IGoal[] = [
+  private goalCards: IGoalCardProps[] = [
     {
       id: "8b71a16a-9274-417e-8c47-65ac971f29b4",
       title: "Learn Dorian scale",
@@ -46,11 +43,11 @@ export class Wizard extends React.Component<any, State> {
     }
   ];
 
-  constructor(props: any) {
+  public constructor(props: any) {
     super(props);
 
     this.state = {
-      practiceTimes: [],
+      practiceTimes: {},
       practiceItems: [
         {
           id: "65979da7-41df-4c73-a7f3-dbdaa5910ebe",
@@ -71,7 +68,7 @@ export class Wizard extends React.Component<any, State> {
     };
   }
 
-  render() {
+  public render() {
     return (
       <Row className="mt-3">
         <GoalCardColumn bootstrapColumnWidth={3}>
@@ -81,11 +78,11 @@ export class Wizard extends React.Component<any, State> {
         </GoalCardColumn>
 
         <PracticeItemCardColumn
-          totalPracticeMinutes={51}
+          totalPracticeTime={this.getTotalPracticeTime()}
           bootstrapColumnWidth={4}
         >
           {this.state.practiceItems.map(practiceItem => (
-            <PracticeItemCard key={practiceItem.id} {...practiceItem} />
+            <PracticeItemCard key={practiceItem.id} practiceTime={this.state.practiceTimes[practiceItem.id]} onTimeChange={this.onPracticeTimeChange} {...practiceItem} />
           ))}
         </PracticeItemCardColumn>
 
@@ -96,5 +93,23 @@ export class Wizard extends React.Component<any, State> {
         </Col>
       </Row>
     );
+  }
+
+  private getTotalPracticeTime(): ITotalTime {
+    const totalTimeBuilder = new TotalTimeBuilder();
+
+    this.state.practiceItems.forEach(practiceItem => {
+      totalTimeBuilder.AddTime(this.state.practiceTimes[practiceItem.id]);
+    });
+
+    return totalTimeBuilder.Build();
+  }
+
+  private onPracticeTimeChange = (newTime: Date, id: string) => {
+    let practiceTimes = {...this.state.practiceTimes};
+    practiceTimes[id] = newTime;
+    this.setState({
+      practiceTimes: practiceTimes
+    });
   }
 }
