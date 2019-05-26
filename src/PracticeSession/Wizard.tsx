@@ -8,16 +8,12 @@ import { PracticeItemCardColumn } from "./CardColumn/PracticeItemCardColumn";
 import { ICardProps } from "./CardColumn/Interfaces";
 import { TotalTimeBuilder, ITotalTime } from "./CardColumn/TotalTimeBuilder";
 
-interface IPracticeItem extends ICardProps{
-
-}
-
 interface IPracticeTimeLookup {
   [practiceItemId: string]: Date
 }
 
 interface State {
-  readonly practiceItems: IPracticeItem[],
+  readonly practiceItems: ICardProps[],
   readonly practiceTimes: IPracticeTimeLookup
 }
 
