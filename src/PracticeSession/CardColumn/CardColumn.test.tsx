@@ -2,8 +2,8 @@ import { TimePicker } from "@blueprintjs/datetime";
 import enzyme from "enzyme";
 import EnzymeAdapter from "enzyme-adapter-react-16";
 import React from "react";
-import { PracticeItemCard } from "./PracticeItemCard";
-import { TotalTimeBuilder } from "./TotalTimeBuilder";
+import { PracticeItemCard } from "./Cards/PracticeItemCard";
+import { TotalTimeBuilder } from "../TotalTimeBuilder";
 enzyme.configure({ adapter: new EnzymeAdapter() });
 
 const inputClassName = ".bp3-timepicker-input";

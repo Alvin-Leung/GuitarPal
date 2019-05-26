@@ -1,7 +1,7 @@
 import React from "react";
 import { Col, Row } from "react-bootstrap";
 import { CardColumn } from "./CardColumn";
-import { ITotalTime } from "./TotalTimeBuilder";
+import { ITotalTime } from "../TotalTimeBuilder";
 
 export interface IPracticeCardColumnProps {
   readonly totalPracticeTime: ITotalTime;

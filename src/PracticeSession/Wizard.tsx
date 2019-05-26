@@ -1,12 +1,12 @@
 import { Button, Intent } from "@blueprintjs/core";
 import React from "react";
 import { Col, Row } from "react-bootstrap";
-import { GoalCard, IGoalCardProps } from "./CardColumn/GoalCard";
+import { GoalCard, IGoalCardProps } from "./CardColumn/Cards/GoalCard";
 import { GoalCardColumn } from "./CardColumn/GoalCardColumn";
-import { PracticeItemCard } from "./CardColumn/PracticeItemCard";
+import { PracticeItemCard } from "./CardColumn/Cards/PracticeItemCard";
 import { PracticeItemCardColumn } from "./CardColumn/PracticeItemCardColumn";
-import { ICardProps } from "./CardColumn/Interfaces";
-import { TotalTimeBuilder, ITotalTime } from "./CardColumn/TotalTimeBuilder";
+import { ICardProps } from "./CardColumn/Cards/Interfaces";
+import { TotalTimeBuilder, ITotalTime } from "./TotalTimeBuilder";
 
 interface IPracticeTimeLookup {
   [practiceItemId: string]: Date
