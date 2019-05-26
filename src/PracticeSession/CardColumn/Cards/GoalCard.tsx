@@ -1,17 +1,35 @@
-import { Intent, ProgressBar, Card, Elevation } from "@blueprintjs/core";
+import { Intent, ProgressBar, Card, Elevation, Icon } from "@blueprintjs/core";
 import React from "react";
-import { ICardProps } from "./Interfaces";
+import { ICardProps, CardState } from "./Interfaces";
+import { IconNames } from "@blueprintjs/icons";
+import "./Card.css";
 
 export interface IGoalCardProps extends ICardProps {
   progress: number;
 }
 
-export class GoalCard extends React.Component<IGoalCardProps> {
-  render(): React.ReactNode {
+export class GoalCard extends React.Component<IGoalCardProps, CardState> {
+  public constructor(props: IGoalCardProps) {
+    super(props);
+    this.state = {
+      isHoveringOverHeader: false
+    };
+  }
+
+  public render(): React.ReactNode {
     return (
       <Card interactive={true} elevation={Elevation.TWO} className="mt-2">
         <h5>
-          <a href="#">{this.props.title}</a>
+          <a
+            onMouseEnter={this.handleMouseHover}
+            onMouseLeave={this.handleMouseHover}
+            href="#"
+          >
+            {this.props.title}{" "}
+            {this.state.isHoveringOverHeader && (
+              <Icon icon={IconNames.EDIT} intent={Intent.PRIMARY} />
+            )}
+          </a>
         </h5>
         <p>{this.props.description}</p>
         <ProgressBar
@@ -22,5 +40,11 @@ export class GoalCard extends React.Component<IGoalCardProps> {
         />
       </Card>
     );
+  }
+
+  private handleMouseHover = () => {
+    this.setState({
+      isHoveringOverHeader: !this.state.isHoveringOverHeader
+    });
   }
 }
