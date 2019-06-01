@@ -1,0 +1,25 @@
+h1 {
+  margin-bottom: 0.5em;
+}
+
+h5 {
+  margin-bottom: 1em;
+}
+
+.close-dialog {
+  float: right;
+}
+
+.dialog {
+  width: 75%;
+  height: 75%;
+  padding: 1.5em;
+}
+
+.description {
+  margin-bottom: 1.5em;
+}
+
+.save-button {
+  margin-left: 0.5em;
+}
