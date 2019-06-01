@@ -1,6 +1,7 @@
 import React from "react";
-import { Navbar as NavbarBP, Button, Alignment } from "@blueprintjs/core";
+import { Navbar as NavbarBP, Button, Alignment, Classes } from "@blueprintjs/core";
 import ElectricGuitarIcon from "../icons/electric-guitar.svg";
+import { IconNames } from "@blueprintjs/icons";
 
 export class Navbar extends React.Component {
   render() {
@@ -18,12 +19,12 @@ export class Navbar extends React.Component {
           </NavbarBP.Heading>
         </NavbarBP.Group>
         <NavbarBP.Group align={Alignment.RIGHT}>
-          <Button className="bp3-minimal" icon="music" text="Practice" />
-          <Button className="bp3-minimal" icon="history" text="Log" />
+          <Button className={Classes.MINIMAL} icon={IconNames.MUSIC} text="Practice" />
+          <Button className={Classes.MINIMAL} icon={IconNames.HISTORY} text="Log" />
           <NavbarBP.Divider />
-          <Button className="bp3-minimal" icon="user" />
-          <Button className="bp3-minimal" icon="notifications" />
-          <Button className="bp3-minimal" icon="cog" />
+          <Button className={Classes.MINIMAL} icon={IconNames.USER} />
+          <Button className={Classes.MINIMAL} icon={IconNames.NOTIFICATIONS} />
+          <Button className={Classes.MINIMAL} icon={IconNames.COG} />
         </NavbarBP.Group>
       </NavbarBP>
     );
