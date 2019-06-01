@@ -8,14 +8,19 @@ import { ICardProps } from "./CardColumn/Cards/Interfaces";
 export interface Props {
   readonly isOpen: boolean;
   readonly practiceCard: ICardProps;
-  readonly onSave: (cardProps: ICardProps) => void;
+  readonly onSave: (practiceItem: ICardProps) => void;
   readonly onCloseOrCancel: () => void;
 }
 
 export class EditPracticeItemDialog extends React.Component<Props> {
-  handleCloseOrCancel = () => {console.log('cancel')};
+  handleCloseOrCancel = () => {
+    // TODO: Stop user from closing if data has been changed but not saved
+    this.props.onCloseOrCancel();
+  };
 
-  handleSave = () => {console.log('save')};
+  handleSave = () => {
+    this.props.onSave(this.props.practiceCard);
+  };
 
   render() {
     return (

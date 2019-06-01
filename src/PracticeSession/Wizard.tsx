@@ -17,6 +17,7 @@ interface State {
   readonly practiceItems: ICardProps[];
   readonly practiceTimes: IPracticeTimeLookup;
   readonly isEditMode: boolean;
+  // TODO: Instead of practiceItemToEdit property, hold only id of practice item to edit
   readonly practiceItemToEdit?: ICardProps;
 }
 
@@ -99,7 +100,7 @@ export class Wizard extends React.Component<any, State> {
             </Button>
           </Col>
         </Row>
-        {this.state.isEditMode && this.state.practiceItemToEdit && <EditPracticeItemDialog isOpen={true} practiceCard={this.state.practiceItemToEdit} onSave={() => {}} onCloseOrCancel={() => {}} />}
+        {this.state.practiceItemToEdit && <EditPracticeItemDialog isOpen={this.state.isEditMode} practiceCard={this.state.practiceItemToEdit} onSave={this.onSavePracticeItem} onCloseOrCancel={this.onCloseOrCancel} />}
       </div>
     );
   }
@@ -130,5 +131,19 @@ export class Wizard extends React.Component<any, State> {
       isEditMode: true,
       practiceItemToEdit: practiceItemToEdit
     });
-  }   
+  }
+
+  private onSavePracticeItem = (practiceItem: ICardProps) => {
+    // TODO: Save edited practice item to state
+    console.log(practiceItem);
+    // TODO: On success, show toast
+    this.onCloseOrCancel();
+  }
+
+  private onCloseOrCancel = () => {
+    console.log('closed or cancelled');
+    this.setState({
+      isEditMode: false
+    })
+  }
 }
