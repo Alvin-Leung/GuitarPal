@@ -2,19 +2,22 @@ import { Button, Intent } from "@blueprintjs/core";
 import React from "react";
 import { Col, Row } from "react-bootstrap";
 import { GoalCard, IGoalCardProps } from "./CardColumn/Cards/GoalCard";
-import { GoalCardColumn } from "./CardColumn/GoalCardColumn";
-import { PracticeItemCard } from "./CardColumn/Cards/PracticeItemCard";
-import { PracticeItemCardColumn } from "./CardColumn/PracticeItemCardColumn";
 import { ICardProps } from "./CardColumn/Cards/Interfaces";
-import { TotalTimeBuilder, ITotalTime } from "./TotalTimeBuilder";
+import { PracticeItemCard } from "./CardColumn/Cards/PracticeItemCard";
+import { GoalCardColumn } from "./CardColumn/GoalCardColumn";
+import { PracticeItemCardColumn } from "./CardColumn/PracticeItemCardColumn";
+import { ITotalTime, TotalTimeBuilder } from "./TotalTimeBuilder";
+import { EditPracticeItemDialog } from "./EditPracticeItemDialog";
 
 interface IPracticeTimeLookup {
-  [practiceItemId: string]: Date
+  [practiceItemId: string]: Date;
 }
 
 interface State {
-  readonly practiceItems: ICardProps[],
-  readonly practiceTimes: IPracticeTimeLookup
+  readonly practiceItems: ICardProps[];
+  readonly practiceTimes: IPracticeTimeLookup;
+  readonly isEditMode: boolean;
+  readonly practiceItemToEdit?: ICardProps;
 }
 
 export class Wizard extends React.Component<any, State> {
@@ -60,34 +63,44 @@ export class Wizard extends React.Component<any, State> {
           title: "Compose",
           description: "Compose that new song"
         }
-      ]
+      ],
+      isEditMode: false
     };
   }
 
   public render() {
     return (
-      <Row className="mt-3">
-        <GoalCardColumn bootstrapColumnWidth={3}>
-          {this.goalCards.map(goal => (
-            <GoalCard key={goal.id} {...goal} />
-          ))}
-        </GoalCardColumn>
+      <div>
+        <Row className="mt-3">
+          <GoalCardColumn bootstrapColumnWidth={3}>
+            {this.goalCards.map(goal => (
+              <GoalCard key={goal.id} {...goal} />
+            ))}
+          </GoalCardColumn>
 
-        <PracticeItemCardColumn
-          totalPracticeTime={this.getTotalPracticeTime()}
-          bootstrapColumnWidth={4}
-        >
-          {this.state.practiceItems.map(practiceItem => (
-            <PracticeItemCard key={practiceItem.id} practiceTime={this.state.practiceTimes[practiceItem.id]} onTimeChange={this.onPracticeTimeChange} {...practiceItem} />
-          ))}
-        </PracticeItemCardColumn>
+          <PracticeItemCardColumn
+            totalPracticeTime={this.getTotalPracticeTime()}
+            bootstrapColumnWidth={4}
+          >
+            {this.state.practiceItems.map(practiceItem => (
+              <PracticeItemCard
+                key={practiceItem.id}
+                practiceTime={this.state.practiceTimes[practiceItem.id]}
+                onTimeChange={this.onPracticeTimeChange}
+                onEdit={this.onEditPracticeItem}
+                {...practiceItem}
+              />
+            ))}
+          </PracticeItemCardColumn>
 
-        <Col xs={4}>
-          <Button intent={Intent.SUCCESS} icon="arrow-right">
-            Start Practice
-          </Button>
-        </Col>
-      </Row>
+          <Col xs={4}>
+            <Button intent={Intent.SUCCESS} icon="arrow-right">
+              Start Practice
+            </Button>
+          </Col>
+        </Row>
+        {this.state.isEditMode && this.state.practiceItemToEdit && <EditPracticeItemDialog isOpen={true} practiceCard={this.state.practiceItemToEdit} onSave={() => {}} onCloseOrCancel={() => {}} />}
+      </div>
     );
   }
 
@@ -102,10 +115,20 @@ export class Wizard extends React.Component<any, State> {
   }
 
   private onPracticeTimeChange = (newTime: Date, id: string) => {
-    let practiceTimes = {...this.state.practiceTimes};
+    let practiceTimes = { ...this.state.practiceTimes };
     practiceTimes[id] = newTime;
     this.setState({
       practiceTimes: practiceTimes
     });
-  }
+  };
+
+  private onEditPracticeItem = (id: string) => {
+    // TODO: Make practice items searchable by string id (index signatures)
+    const practiceItemToEdit = this.state.practiceItems.find(item => item.id == id);
+
+    this.setState({
+      isEditMode: true,
+      practiceItemToEdit: practiceItemToEdit
+    });
+  }   
 }

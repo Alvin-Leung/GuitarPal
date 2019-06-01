@@ -1,24 +1,30 @@
 import React from "react";
-import {
-  Dialog,
-  EditableText,
-  Button,
-  Intent,
-  Icon,
-  Classes
-} from "@blueprintjs/core";
+import { Dialog, EditableText, Button, Intent } from "@blueprintjs/core";
 import { Row, Col } from "react-bootstrap";
 import "./EditPracticeItemDialog.css";
 import { IconNames } from "@blueprintjs/icons";
+import { ICardProps } from "./CardColumn/Cards/Interfaces";
 
-export class EditPracticeItemDialog extends React.Component {
+export interface Props {
+  readonly isOpen: boolean;
+  readonly practiceCard: ICardProps;
+  readonly onSave: (cardProps: ICardProps) => void;
+  readonly onCloseOrCancel: () => void;
+}
+
+export class EditPracticeItemDialog extends React.Component<Props> {
+  handleCloseOrCancel = () => {console.log('cancel')};
+
+  handleSave = () => {console.log('save')};
+
   render() {
     return (
       <Dialog
-        isOpen={true}
         isCloseButtonShown={true}
         canEscapeKeyClose={true}
         canOutsideClickClose={true}
+        isOpen={this.props.isOpen}
+        onClose={this.handleCloseOrCancel}
         className="dialog"
       >
         <Row>
@@ -26,7 +32,12 @@ export class EditPracticeItemDialog extends React.Component {
             <h1>Edit Practice Item</h1>
           </Col>
           <Col xs={2}>
-            <Button icon={IconNames.CROSS} minimal={true} className="close-dialog" />
+            <Button
+              onClick={this.handleCloseOrCancel}
+              icon={IconNames.CROSS}
+              minimal={true}
+              className="close-dialog"
+            />
           </Col>
         </Row>
         <Row>
@@ -35,6 +46,7 @@ export class EditPracticeItemDialog extends React.Component {
               <EditableText
                 selectAllOnFocus={true}
                 placeholder="Add title..."
+                value={this.props.practiceCard.title}
               />
             </h5>
           </Col>
@@ -46,14 +58,18 @@ export class EditPracticeItemDialog extends React.Component {
               minLines={15}
               maxLines={30}
               placeholder="Add description..."
+              value={this.props.practiceCard.description}
             />
           </Col>
         </Row>
         <Row>
           <Col xs={12}>
             <div className="float-right">
-              <Button intent={Intent.NONE}>Cancel</Button>
+              <Button onClick={this.handleCloseOrCancel} intent={Intent.NONE}>
+                Cancel
+              </Button>
               <Button
+                onClick={this.handleSave}
                 intent={Intent.PRIMARY}
                 icon={IconNames.FLOPPY_DISK}
                 className="save-button"

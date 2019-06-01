@@ -9,6 +9,7 @@ import { ICardProps } from "./Interfaces";
 export interface IPracticeItemCardProps extends ICardProps {
   practiceTime: Date;
   onTimeChange: (newTime: Date, id: string) => void;
+  onEdit: (id: string) => void;
 }
 
 export class PracticeItemCard extends React.Component<IPracticeItemCardProps> {
@@ -17,7 +18,8 @@ export class PracticeItemCard extends React.Component<IPracticeItemCardProps> {
     title: "",
     description: "",
     practiceTime: new Date(0, 0, 0, 0, 0, 0, 0),
-    onTimeChange: () => {}
+    onTimeChange: () => {},
+    onEdit: () => {}
   };
 
   public render(): React.ReactNode {
@@ -25,7 +27,7 @@ export class PracticeItemCard extends React.Component<IPracticeItemCardProps> {
       <Card interactive={true} elevation={Elevation.TWO} className="mt-2">
         <Row>
           <Col xs={6}>
-            <EditLink text={this.props.title} />
+            <EditLink text={this.props.title} onClick={this.handleLinkClick} />
           </Col>
           <Col xs={6}>
             <span className="float-right">
@@ -49,4 +51,8 @@ export class PracticeItemCard extends React.Component<IPracticeItemCardProps> {
   private handleTimeChange = (newTime: Date) => {
     this.props.onTimeChange(newTime, this.props.id);
   };
+
+  private handleLinkClick = () => {
+    this.props.onEdit(this.props.id);
+  }
 }

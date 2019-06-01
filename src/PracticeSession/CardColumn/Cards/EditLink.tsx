@@ -5,6 +5,7 @@ import "./Card.css";
 
 export interface Props {
   readonly text: string;
+  readonly onClick: () => void;
 }
 
 interface State {
@@ -25,6 +26,7 @@ export class EditLink extends React.Component<Props, State> {
         <a
           onMouseEnter={this.handleMouseHover}
           onMouseLeave={this.handleMouseHover}
+          onClick={this.props.onClick}
           href="#"
         >
           {this.props.text}

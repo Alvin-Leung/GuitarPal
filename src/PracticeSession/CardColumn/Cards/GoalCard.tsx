@@ -12,7 +12,7 @@ export class GoalCard extends React.Component<IGoalCardProps> {
   public render(): React.ReactNode {
     return (
       <Card interactive={true} elevation={Elevation.TWO} className="mt-2">
-        <EditLink text={this.props.title} />
+        <EditLink text={this.props.title} onClick={() => {}}/>
         <p>{this.props.description}</p>
         <ProgressBar
           intent={Intent.SUCCESS}
