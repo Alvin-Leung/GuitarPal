@@ -11,7 +11,7 @@ export interface IPracticeCardColumnProps {
 export class PracticeItemCardColumn extends React.Component<IPracticeCardColumnProps> {
   render() {
     const totalPracticeTimeText =
-      this.props.totalPracticeTime.hours == 0
+      this.props.totalPracticeTime.hours === 0
         ? `Total Time: ${this.props.totalPracticeTime.minutes} mins`
         : `Total Time: ${this.props.totalPracticeTime.hours} hours ${
             this.props.totalPracticeTime.minutes
