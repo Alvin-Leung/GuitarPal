@@ -7,28 +7,55 @@ import { ICardProps } from "./CardColumn/Cards/Interfaces";
 
 export interface Props {
   readonly isOpen: boolean;
-  readonly practiceCard: ICardProps;
+  readonly initialPracticeCard: ICardProps;
   readonly onSave: (practiceItem: ICardProps) => void;
   readonly onCloseOrCancel: () => void;
 }
 
-export class EditPracticeItemDialog extends React.Component<Props> {
+export interface State {
+  practiceCard: ICardProps;
+}
+
+export class EditPracticeItemDialog extends React.Component<Props, State> {
+  // TODO: Explictly declare access modifiers to methods
+  handleDialogOpening = () => {
+    this.setState({
+      practiceCard: this.props.initialPracticeCard
+    });
+  };
+
   handleCloseOrCancel = () => {
     // TODO: Stop user from closing if data has been changed but not saved
     this.props.onCloseOrCancel();
   };
 
   handleSave = () => {
-    this.props.onSave(this.props.practiceCard);
+    this.props.onSave(this.state.practiceCard);
+  };
+
+  handleTitleChange = (newTitle: string) => {
+    this.setState({
+      practiceCard: { ...this.state.practiceCard, ...{ title: newTitle } }
+    });
+  };
+
+  handleDescriptionChange = (newDescription: string) => {
+    this.setState({
+      practiceCard: {
+        ...this.state.practiceCard,
+        ...{ description: newDescription }
+      }
+    });
   };
 
   render() {
     return (
+      // TODO: Use provided properties for displaying title and close button
       <Dialog
-        isCloseButtonShown={true}
         canEscapeKeyClose={true}
         canOutsideClickClose={true}
         isOpen={this.props.isOpen}
+        onOpening={this.handleDialogOpening}
         onClose={this.handleCloseOrCancel}
         className="dialog"
       >
@@ -48,23 +75,29 @@ export class EditPracticeItemDialog extends React.Component<Props> {
         <Row>
           <Col xs={12}>
             <h5>
-              <EditableText
-                selectAllOnFocus={true}
-                placeholder="Add title..."
-                value={this.props.practiceCard.title}
-              />
+              {this.state && (
+                <EditableText
+                  selectAllOnFocus={true}
+                  placeholder="Add title..."
+                  value={this.state.practiceCard.title}
+                  onChange={this.handleTitleChange}
+                />
+              )}
             </h5>
           </Col>
         </Row>
         <Row className="description">
           <Col xs={12}>
-            <EditableText
-              multiline={true}
-              minLines={15}
-              maxLines={30}
-              placeholder="Add description..."
-              value={this.props.practiceCard.description}
-            />
+            {this.state && (
+              <EditableText
+                multiline={true}
+                minLines={15}
+                maxLines={30}
+                placeholder="Add description..."
+                value={this.state.practiceCard.description}
+                onChange={this.handleDescriptionChange}
+              />
+            )}
           </Col>
         </Row>
         <Row>

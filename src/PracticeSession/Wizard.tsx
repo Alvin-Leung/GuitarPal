@@ -96,7 +96,7 @@ export class Wizard extends React.Component<any, State> {
         {this.state.editItemId && (
           <EditPracticeItemDialog
             isOpen={this.state.isEditMode}
-            practiceCard={this.state.practiceItems[this.state.editItemId]}
+            initialPracticeCard={this.state.practiceItems[this.state.editItemId]}
             onSave={this.onSavePracticeItem}
             onCloseOrCancel={this.onCloseOrCancel}
           />
@@ -150,15 +150,18 @@ export class Wizard extends React.Component<any, State> {
     });
   };
 
-  private onSavePracticeItem = (practiceItem: ICardProps) => {
-    // TODO: Save edited practice item to state
-    console.log(practiceItem);
+  private onSavePracticeItem = (editedItem: ICardProps) => {
+    const updatedItems = {...this.state.practiceItems};
+    updatedItems[editedItem.id] = editedItem;
+
+    this.setState({
+      isEditMode: false,
+      practiceItems: updatedItems
+    });
     // TODO: On success, show toast
-    this.onCloseOrCancel();
   };
 
   private onCloseOrCancel = () => {
-    console.log("closed or cancelled");
     this.setState({
       isEditMode: false
     });
