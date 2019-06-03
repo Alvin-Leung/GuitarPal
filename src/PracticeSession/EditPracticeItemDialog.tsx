@@ -28,73 +28,6 @@ export class EditPracticeItemDialog extends React.Component<Props, State> {
     };
   }
 
-  // TODO: Explictly declare access modifiers to methods
-  private handleDialogOpening = () => {
-    this.setState({
-      practiceCard: this.props.initialPracticeCard
-    });
-  };
-
-  private handleCloseOrCancel = () => {
-    if (this.areChangesPresent()) {
-      this.showExitConfirmationDialog();
-    } else {
-      this.props.onCloseOrCancel();
-    }
-  };
-
-  private handleSave = () => {
-    if (this.areRequiredFieldsMissing()) {
-      ErrorToaster.show("Please populate title before saving");
-    } else {
-      this.props.onSave(this.state.practiceCard);
-    }
-  };
-
-  private handleTitleChange = (newTitle: string) => {
-    this.setState({
-      practiceCard: { ...this.state.practiceCard, ...{ title: newTitle } }
-    });
-  };
-
-  private handleDescriptionChange = (newDescription: string) => {
-    this.setState({
-      practiceCard: {
-        ...this.state.practiceCard,
-        ...{ description: newDescription }
-      }
-    });
-  };
-
-  private closeWithUnsavedEdits = () => {
-    this.hideExitAlert();
-    this.props.onCloseOrCancel();
-  };
-
-  private showExitConfirmationDialog = () => {
-    this.setState({
-      openExitConfirmationDialog: true
-    });
-  };
-
-  private hideExitAlert = () => {
-    this.setState({
-      openExitConfirmationDialog: false
-    });
-  };
-
-  private areChangesPresent = (): boolean => {
-    return (
-      this.state.practiceCard.title !== this.props.initialPracticeCard.title ||
-      this.state.practiceCard.description !==
-        this.props.initialPracticeCard.description
-    );
-  };
-
-  private areRequiredFieldsMissing = (): boolean => {
-    return this.state.practiceCard.title === "";
-  };
-
   public render() {
     return (
       <div>
@@ -178,4 +111,70 @@ export class EditPracticeItemDialog extends React.Component<Props, State> {
       </div>
     );
   }
+
+  private handleDialogOpening = () => {
+    this.setState({
+      practiceCard: this.props.initialPracticeCard
+    });
+  };
+
+  private handleCloseOrCancel = () => {
+    if (this.areChangesPresent()) {
+      this.showExitConfirmationDialog();
+    } else {
+      this.props.onCloseOrCancel();
+    }
+  };
+
+  private handleSave = () => {
+    if (this.areRequiredFieldsMissing()) {
+      ErrorToaster.show("Please populate title before saving");
+    } else {
+      this.props.onSave(this.state.practiceCard);
+    }
+  };
+
+  private handleTitleChange = (newTitle: string) => {
+    this.setState({
+      practiceCard: { ...this.state.practiceCard, ...{ title: newTitle } }
+    });
+  };
+
+  private handleDescriptionChange = (newDescription: string) => {
+    this.setState({
+      practiceCard: {
+        ...this.state.practiceCard,
+        ...{ description: newDescription }
+      }
+    });
+  };
+
+  private closeWithUnsavedEdits = () => {
+    this.hideExitAlert();
+    this.props.onCloseOrCancel();
+  };
+
+  private showExitConfirmationDialog = () => {
+    this.setState({
+      openExitConfirmationDialog: true
+    });
+  };
+
+  private hideExitAlert = () => {
+    this.setState({
+      openExitConfirmationDialog: false
+    });
+  };
+
+  private areChangesPresent = (): boolean => {
+    return (
+      this.state.practiceCard.title !== this.props.initialPracticeCard.title ||
+      this.state.practiceCard.description !==
+        this.props.initialPracticeCard.description
+    );
+  };
+
+  private areRequiredFieldsMissing = (): boolean => {
+    return this.state.practiceCard.title === "";
+  };
 }
