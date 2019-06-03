@@ -19,11 +19,19 @@ export interface State {
 }
 
 export class EditPracticeItemDialog extends React.Component<Props, State> {
+  constructor(props: Props) {
+    super(props);
+
+    this.state = {
+      practiceCard: { id: "", title: "", description: "" },
+      openExitConfirmationDialog: false
+    };
+  }
+
   // TODO: Explictly declare access modifiers to methods
   handleDialogOpening = () => {
     this.setState({
-      practiceCard: this.props.initialPracticeCard,
-      openExitConfirmationDialog: false
+      practiceCard: this.props.initialPracticeCard
     });
   };
 
@@ -84,26 +92,22 @@ export class EditPracticeItemDialog extends React.Component<Props, State> {
   };
 
   areRequiredFieldsMissing = (): boolean => {
-    return (
-      this.state.practiceCard.title === ""
-    );
+    return this.state.practiceCard.title === "";
   };
 
   render() {
     return (
       <div>
-        {this.state && (
-          <Alert
-            isOpen={this.state.openExitConfirmationDialog}
-            cancelButtonText={"Cancel"}
-            onConfirm={this.closeWithUnsavedEdits}
-            onCancel={this.hideExitAlert}
-            intent={Intent.PRIMARY}
-            icon={IconNames.ERROR}
-          >
-            Exit with unsaved changes?
-          </Alert>
-        )}
+        <Alert
+          isOpen={this.state.openExitConfirmationDialog}
+          cancelButtonText={"Cancel"}
+          onConfirm={this.closeWithUnsavedEdits}
+          onCancel={this.hideExitAlert}
+          intent={Intent.PRIMARY}
+          icon={IconNames.ERROR}
+        >
+          Exit with unsaved changes?
+        </Alert>
         // TODO: Use provided properties for displaying title and close button
         <Dialog
           canEscapeKeyClose={true}
@@ -129,14 +133,12 @@ export class EditPracticeItemDialog extends React.Component<Props, State> {
           <Row>
             <Col xs={12}>
               <h5>
-                {this.state && (
-                  <EditableText
-                    selectAllOnFocus={true}
-                    placeholder="Add title..."
-                    value={this.state.practiceCard.title}
-                    onChange={this.handleTitleChange}
-                  />
-                )}
+                <EditableText
+                  selectAllOnFocus={true}
+                  placeholder="Add title..."
+                  value={this.state.practiceCard.title}
+                  onChange={this.handleTitleChange}
+                />
               </h5>
             </Col>
           </Row>
