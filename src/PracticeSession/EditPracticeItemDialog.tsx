@@ -163,6 +163,7 @@ export class EditPracticeItemDialog extends React.Component<Props, State> {
                   Cancel
                 </Button>
                 <Button
+                  disabled={!this.areChangesPresent()}
                   onClick={this.handleSave}
                   intent={Intent.PRIMARY}
                   icon={IconNames.FLOPPY_DISK}
