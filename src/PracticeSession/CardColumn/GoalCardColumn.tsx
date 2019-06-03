@@ -1,7 +1,9 @@
-import { Button, Intent } from "@blueprintjs/core";
+import { Button, Intent, Icon } from "@blueprintjs/core";
 import React from "react";
 import { Col, Row } from "react-bootstrap";
 import { CardColumn } from "./CardColumn";
+import { IconNames } from "@blueprintjs/icons";
+import "./CardColumn.css";
 
 export interface IGoalCardColumnProps {
   readonly bootstrapColumnWidth: number;
@@ -23,14 +25,13 @@ export class GoalCardColumn extends React.Component<IGoalCardColumnProps> {
               <span className="btn btn-sm">Goal Pool</span>
             </Col>
             <Col xs={6}>
-              <span className="float-right align-bottom">
+              <span className="float-right">
                 <Button
                   intent={Intent.PRIMARY}
                   minimal={true}
-                  icon="plus"
                   onClick={this.onAddNew}
                 >
-                  New
+                  <Icon icon={IconNames.PLUS} className="mr-sm-1" />New
                 </Button>
               </span>
             </Col>
