@@ -41,7 +41,6 @@ export class EditPracticeItemDialog extends React.Component<Props, State> {
         >
           Exit with unsaved changes?
         </Alert>
-        // TODO: Use provided properties for displaying title and close button
         <Dialog
           canEscapeKeyClose={true}
           canOutsideClickClose={true}
@@ -77,16 +76,14 @@ export class EditPracticeItemDialog extends React.Component<Props, State> {
           </Row>
           <Row className="description">
             <Col xs={12}>
-              {this.state && (
-                <EditableText
-                  multiline={true}
-                  minLines={15}
-                  maxLines={30}
-                  placeholder="Add description..."
-                  value={this.state.practiceCard.description}
-                  onChange={this.handleDescriptionChange}
-                />
-              )}
+              <EditableText
+                multiline={true}
+                minLines={15}
+                maxLines={30}
+                placeholder="Add description..."
+                value={this.state.practiceCard.description}
+                onChange={this.handleDescriptionChange}
+              />
             </Col>
           </Row>
           <Row>
