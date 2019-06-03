@@ -16,11 +16,11 @@ export class SuccessToaster {
 }
 
 export class ErrorToaster {
-    public static show(errorMessage: string) {
-      toaster.show({
-        message: errorMessage,
-        intent: Intent.DANGER,
-        icon: IconNames.STOP
-      });
-    }
+  public static show(errorMessage: string) {
+    toaster.show({
+      message: errorMessage,
+      intent: Intent.DANGER,
+      icon: IconNames.ERROR
+    });
   }
+}
