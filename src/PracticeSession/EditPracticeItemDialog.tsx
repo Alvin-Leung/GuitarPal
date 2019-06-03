@@ -19,7 +19,7 @@ export interface State {
 }
 
 export class EditPracticeItemDialog extends React.Component<Props, State> {
-  constructor(props: Props) {
+  public constructor(props: Props) {
     super(props);
 
     this.state = {
@@ -29,13 +29,13 @@ export class EditPracticeItemDialog extends React.Component<Props, State> {
   }
 
   // TODO: Explictly declare access modifiers to methods
-  handleDialogOpening = () => {
+  private handleDialogOpening = () => {
     this.setState({
       practiceCard: this.props.initialPracticeCard
     });
   };
 
-  handleCloseOrCancel = () => {
+  private handleCloseOrCancel = () => {
     if (this.areChangesPresent()) {
       this.showExitConfirmationDialog();
     } else {
@@ -43,7 +43,7 @@ export class EditPracticeItemDialog extends React.Component<Props, State> {
     }
   };
 
-  handleSave = () => {
+  private handleSave = () => {
     if (this.areRequiredFieldsMissing()) {
       ErrorToaster.show("Please populate title before saving");
     } else {
@@ -51,13 +51,13 @@ export class EditPracticeItemDialog extends React.Component<Props, State> {
     }
   };
 
-  handleTitleChange = (newTitle: string) => {
+  private handleTitleChange = (newTitle: string) => {
     this.setState({
       practiceCard: { ...this.state.practiceCard, ...{ title: newTitle } }
     });
   };
 
-  handleDescriptionChange = (newDescription: string) => {
+  private handleDescriptionChange = (newDescription: string) => {
     this.setState({
       practiceCard: {
         ...this.state.practiceCard,
@@ -66,24 +66,24 @@ export class EditPracticeItemDialog extends React.Component<Props, State> {
     });
   };
 
-  closeWithUnsavedEdits = () => {
+  private closeWithUnsavedEdits = () => {
     this.hideExitAlert();
     this.props.onCloseOrCancel();
   };
 
-  showExitConfirmationDialog = () => {
+  private showExitConfirmationDialog = () => {
     this.setState({
       openExitConfirmationDialog: true
     });
   };
 
-  hideExitAlert = () => {
+  private hideExitAlert = () => {
     this.setState({
       openExitConfirmationDialog: false
     });
   };
 
-  areChangesPresent = (): boolean => {
+  private areChangesPresent = (): boolean => {
     return (
       this.state.practiceCard.title !== this.props.initialPracticeCard.title ||
       this.state.practiceCard.description !==
@@ -91,11 +91,11 @@ export class EditPracticeItemDialog extends React.Component<Props, State> {
     );
   };
 
-  areRequiredFieldsMissing = (): boolean => {
+  private areRequiredFieldsMissing = (): boolean => {
     return this.state.practiceCard.title === "";
   };
 
-  render() {
+  public render() {
     return (
       <div>
         <Alert
