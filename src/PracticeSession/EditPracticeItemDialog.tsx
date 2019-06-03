@@ -1,5 +1,13 @@
 import React from "react";
-import { Dialog, EditableText, Button, Intent, Alert } from "@blueprintjs/core";
+import {
+  Dialog,
+  EditableText,
+  Button,
+  Intent,
+  Alert,
+  Icon,
+  Classes
+} from "@blueprintjs/core";
 import { Row, Col } from "react-bootstrap";
 import "./EditPracticeItemDialog.css";
 import { IconNames } from "@blueprintjs/icons";
@@ -41,6 +49,7 @@ export class EditPracticeItemDialog extends React.Component<Props, State> {
         >
           Exit with unsaved changes?
         </Alert>
+
         <Dialog
           canEscapeKeyClose={true}
           canOutsideClickClose={true}
@@ -49,61 +58,82 @@ export class EditPracticeItemDialog extends React.Component<Props, State> {
           onClose={this.handleCloseOrCancel}
           className="dialog"
         >
-          <Row>
-            <Col xs={10}>
-              <h1>Edit Practice Item</h1>
-            </Col>
-            <Col xs={2}>
-              <Button
-                onClick={this.handleCloseOrCancel}
-                icon={IconNames.CROSS}
-                minimal={true}
-                className="close-dialog"
-              />
-            </Col>
-          </Row>
-          <Row>
-            <Col xs={12}>
-              <h5>
-                <EditableText
-                  selectAllOnFocus={true}
-                  placeholder="Add title..."
-                  value={this.state.practiceCard.title}
-                  onChange={this.handleTitleChange}
-                />
-              </h5>
-            </Col>
-          </Row>
-          <Row className="description">
-            <Col xs={12}>
-              <EditableText
-                multiline={true}
-                minLines={15}
-                maxLines={30}
-                placeholder="Add description..."
-                value={this.state.practiceCard.description}
-                onChange={this.handleDescriptionChange}
-              />
-            </Col>
-          </Row>
-          <Row>
-            <Col xs={12}>
-              <div className="float-right">
-                <Button onClick={this.handleCloseOrCancel} intent={Intent.NONE}>
-                  Cancel
-                </Button>
+          <div className="header">
+            <Row>
+              <Col xs={11}>
+                <p className={Classes.TEXT_MUTED}>
+                  <Icon
+                    icon={IconNames.EDIT}
+                    intent={Intent.PRIMARY}
+                    iconSize={12}
+                  />{" "}
+                  Edit Practice Item
+                </p>
+              </Col>
+              <Col xs={1}>
                 <Button
-                  disabled={!this.areChangesPresent()}
-                  onClick={this.handleSave}
-                  intent={Intent.PRIMARY}
-                  icon={IconNames.FLOPPY_DISK}
-                  className="save-button"
-                >
-                  Save
-                </Button>
-              </div>
-            </Col>
-          </Row>
+                  onClick={this.handleCloseOrCancel}
+                  icon={IconNames.CROSS}
+                  minimal={true}
+                  className="close-dialog"
+                />
+              </Col>
+            </Row>
+            <Row>
+              <Col xs={12}>
+                <h5>
+                  <EditableText
+                    selectAllOnFocus={true}
+                    placeholder="Add title..."
+                    value={this.state.practiceCard.title}
+                    onChange={this.handleTitleChange}
+                  />
+                </h5>
+              </Col>
+            </Row>
+          </div>
+          <div className="dialog-body">
+            <Row>
+              <Col xs={12}>
+                <p className={Classes.TEXT_MUTED}>Description:</p>
+              </Col>
+            </Row>
+            <Row className="description">
+              <Col xs={12}>
+                <EditableText
+                  multiline={true}
+                  minLines={15}
+                  maxLines={30}
+                  placeholder="Add description..."
+                  value={this.state.practiceCard.description}
+                  onChange={this.handleDescriptionChange}
+                />
+              </Col>
+            </Row>
+          </div>
+          <div className="dialog-footer">
+            <Row>
+              <Col xs={12}>
+                <div className="float-right">
+                  <Button
+                    onClick={this.handleCloseOrCancel}
+                    intent={Intent.NONE}
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    disabled={!this.areChangesPresent()}
+                    onClick={this.handleSave}
+                    intent={Intent.PRIMARY}
+                    icon={IconNames.FLOPPY_DISK}
+                    className="save-button"
+                  >
+                    Save
+                  </Button>
+                </div>
+              </Col>
+            </Row>
+          </div>
         </Dialog>
       </div>
     );
