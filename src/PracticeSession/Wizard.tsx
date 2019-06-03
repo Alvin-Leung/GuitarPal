@@ -8,6 +8,7 @@ import { GoalCardColumn } from "./CardColumn/GoalCardColumn";
 import { PracticeItemCardColumn } from "./CardColumn/PracticeItemCardColumn";
 import { ITotalTime, TotalTimeBuilder } from "./TotalTimeBuilder";
 import { EditPracticeItemDialog } from "./EditPracticeItemDialog";
+import { SuccessToaster } from "../Toaster";
 
 interface IPracticeItemLookup {
   [practiceItemId: string]: ICardProps;
@@ -158,7 +159,8 @@ export class Wizard extends React.Component<any, State> {
       isEditMode: false,
       practiceItems: updatedItems
     });
-    // TODO: On success, show toast
+  
+    SuccessToaster.show("Changes saved!");
   };
 
   private onCloseOrCancel = () => {
