@@ -4,6 +4,7 @@ import { Row, Col } from "react-bootstrap";
 import "./EditPracticeItemDialog.css";
 import { IconNames } from "@blueprintjs/icons";
 import { ICardProps } from "./CardColumn/Cards/Interfaces";
+import { ErrorToaster } from "../Toaster";
 
 export interface Props {
   readonly isOpen: boolean;
@@ -35,7 +36,11 @@ export class EditPracticeItemDialog extends React.Component<Props, State> {
   };
 
   handleSave = () => {
-    this.props.onSave(this.state.practiceCard);
+    if (this.areRequiredFieldsMissing()) {
+      ErrorToaster.show("Please populate title before saving");
+    } else {
+      this.props.onSave(this.state.practiceCard);
+    }
   };
 
   handleTitleChange = (newTitle: string) => {
@@ -80,8 +85,7 @@ export class EditPracticeItemDialog extends React.Component<Props, State> {
 
   areRequiredFieldsMissing = (): boolean => {
     return (
-      this.state.practiceCard.title === "" ||
-      this.state.practiceCard.description === ""
+      this.state.practiceCard.title === ""
     );
   };
 
