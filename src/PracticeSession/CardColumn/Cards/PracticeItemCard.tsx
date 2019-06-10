@@ -5,6 +5,7 @@ import { Col, Row } from "react-bootstrap";
 import "./Card.css";
 import { EditLink } from "./EditLink";
 import { ICardProps } from "./Interfaces";
+import { MinimalCloseButton } from "./MinimalCloseButton";
 
 export interface IPracticeItemCardProps extends ICardProps {
   practiceTime: Date;
@@ -24,27 +25,33 @@ export class PracticeItemCard extends React.Component<IPracticeItemCardProps> {
 
   public render(): React.ReactNode {
     return (
-      <Card interactive={true} elevation={Elevation.TWO} className="mt-2">
-        <Row>
-          <Col xs={6}>
-            <EditLink text={this.props.title} onClick={this.handleLinkClick} />
-          </Col>
-          <Col xs={6}>
-            <span className="float-right">
-              <TimePicker
-                selectAllOnFocus={true}
-                onChange={this.handleTimeChange}
-                value={this.props.practiceTime}
+      <div className="card-div">
+        <MinimalCloseButton onClick={() => {}} />
+        <Card interactive={true} elevation={Elevation.TWO} className="mt-2">
+          <Row>
+            <Col xs={6}>
+              <EditLink
+                text={this.props.title}
+                onClick={this.handleLinkClick}
               />
-            </span>
-          </Col>
-        </Row>
-        <Row>
-          <Col xs={12}>
-            <p>{this.props.description}</p>
-          </Col>
-        </Row>
-      </Card>
+            </Col>
+            <Col xs={6}>
+              <span className="float-right mr-1">
+                <TimePicker
+                  selectAllOnFocus={true}
+                  onChange={this.handleTimeChange}
+                  value={this.props.practiceTime}
+                />
+              </span>
+            </Col>
+          </Row>
+          <Row>
+            <Col xs={12}>
+              <p>{this.props.description}</p>
+            </Col>
+          </Row>
+        </Card>
+      </div>
     );
   }
 
@@ -54,5 +61,5 @@ export class PracticeItemCard extends React.Component<IPracticeItemCardProps> {
 
   private handleLinkClick = () => {
     this.props.onEdit(this.props.id);
-  }
+  };
 }
