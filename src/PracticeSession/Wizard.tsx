@@ -51,8 +51,8 @@ export class Wizard extends React.Component<any, State> {
     super(props);
 
     const practiceItems: IPracticeItemLookup = {};
-    
-    this.getPracticeItems().forEach(item => {
+
+    this.getInitialPracticeItems().forEach(item => {
       practiceItems[item.id] = item;
     });
 
@@ -83,6 +83,7 @@ export class Wizard extends React.Component<any, State> {
                 practiceTime={this.state.practiceTimes[key]}
                 onTimeChange={this.onPracticeTimeChange}
                 onEdit={this.onEditPracticeItem}
+                onDelete={this.onDeletePracticeItem}
                 {...this.state.practiceItems[key]}
               />
             ))}
@@ -97,7 +98,9 @@ export class Wizard extends React.Component<any, State> {
         {this.state.editItemId && (
           <EditPracticeItemDialog
             isOpen={this.state.isEditMode}
-            initialPracticeCard={this.state.practiceItems[this.state.editItemId]}
+            initialPracticeCard={
+              this.state.practiceItems[this.state.editItemId]
+            }
             onSave={this.onSavePracticeItem}
             onCloseOrCancel={this.onCloseOrCancel}
           />
@@ -106,7 +109,7 @@ export class Wizard extends React.Component<any, State> {
     );
   }
 
-  private getPracticeItems(): ICardProps[] {
+  private getInitialPracticeItems(): ICardProps[] {
     return [
       {
         id: "65979da7-41df-4c73-a7f3-dbdaa5910ebe",
@@ -152,15 +155,24 @@ export class Wizard extends React.Component<any, State> {
   };
 
   private onSavePracticeItem = (editedItem: ICardProps) => {
-    const updatedItems = {...this.state.practiceItems};
+    const updatedItems = { ...this.state.practiceItems };
     updatedItems[editedItem.id] = editedItem;
 
     this.setState({
       isEditMode: false,
       practiceItems: updatedItems
     });
-  
+
     SuccessToaster.show("Changes saved!");
+  };
+
+  private onDeletePracticeItem = (id: string) => {
+    const updatedItems = { ...this.state.practiceItems };
+    delete updatedItems[id];
+
+    this.setState({
+      practiceItems: updatedItems
+    });
   };
 
   private onCloseOrCancel = () => {

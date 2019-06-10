@@ -11,6 +11,7 @@ export interface IPracticeItemCardProps extends ICardProps {
   practiceTime: Date;
   onTimeChange: (newTime: Date, id: string) => void;
   onEdit: (id: string) => void;
+  onDelete: (id: string) => void;
 }
 
 export class PracticeItemCard extends React.Component<IPracticeItemCardProps> {
@@ -20,13 +21,14 @@ export class PracticeItemCard extends React.Component<IPracticeItemCardProps> {
     description: "",
     practiceTime: new Date(0, 0, 0, 0, 0, 0, 0),
     onTimeChange: () => {},
-    onEdit: () => {}
+    onEdit: () => {},
+    onDelete: () => {}
   };
 
   public render(): React.ReactNode {
     return (
       <div className="card-div">
-        <MinimalCloseButton onClick={() => {}} />
+        <MinimalCloseButton onClick={this.handleDelete} />
         <Card interactive={true} elevation={Elevation.TWO} className="mt-2">
           <Row>
             <Col xs={6}>
@@ -62,4 +64,8 @@ export class PracticeItemCard extends React.Component<IPracticeItemCardProps> {
   private handleLinkClick = () => {
     this.props.onEdit(this.props.id);
   };
+
+  private handleDelete = () => {
+    this.props.onDelete(this.props.id);
+  }
 }
