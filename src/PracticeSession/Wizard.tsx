@@ -100,7 +100,7 @@ export class Wizard extends React.Component<Props, State> {
                 practiceTime={this.state.practiceTimes[key]}
                 onTimeChange={this.onPracticeTimeChange}
                 onEdit={this.onEditPracticeItem}
-                onDelete={this.onDeletePracticeItem}
+                onRemove={this.onRemovePracticeItem}
                 {...this.state.practiceItems[key]}
               />
             ))}
@@ -163,7 +163,7 @@ export class Wizard extends React.Component<Props, State> {
     SuccessToaster.show("Changes saved!");
   };
 
-  private onDeletePracticeItem = (id: string) => {
+  private onRemovePracticeItem = (id: string) => {
     const updatedItems = { ...this.state.practiceItems };
     delete updatedItems[id];
 

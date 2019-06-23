@@ -11,7 +11,7 @@ export interface IPracticeItemCardProps extends ICardProps {
   practiceTime: Date;
   onTimeChange: (newTime: Date, id: string) => void;
   onEdit: (id: string) => void;
-  onDelete: (id: string) => void;
+  onRemove: (id: string) => void;
 }
 
 interface State {
@@ -29,7 +29,7 @@ export class PracticeItemCard extends React.Component<
     practiceTime: new Date(0, 0, 0, 0, 0, 0, 0),
     onTimeChange: () => {},
     onEdit: () => {},
-    onDelete: () => {}
+    onRemove: () => {}
   };
 
   public constructor(props: IPracticeItemCardProps) {
@@ -98,6 +98,6 @@ export class PracticeItemCard extends React.Component<
   };
 
   private handleDelete = () => {
-    this.props.onDelete(this.props.id);
+    this.props.onRemove(this.props.id);
   };
 }
