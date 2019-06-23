@@ -19,8 +19,13 @@ var allPracticeItems: ICardProps[] = [
 ];
 
 export default class PracticeItemService {
+    public async getLastPracticeSessionItems(): Promise<ICardProps[]> {
+        // TODO: Replace this with API call for getting practice items from a user's last practice
+        return allPracticeItems;
+    }
+
     public async getPracticeItemsByParentId(parentId: string): Promise<ICardProps[]> {
-        // TODO: Replace this with logic to make API call for getting practice items associated with goal item
+        // TODO: Replace this with API call for getting practice items associated with goal item
         return allPracticeItems;
     }
 
