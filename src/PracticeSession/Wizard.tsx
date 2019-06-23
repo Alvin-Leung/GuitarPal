@@ -8,7 +8,8 @@ import { GoalCardColumn } from "./CardColumn/GoalCardColumn";
 import { PracticeItemCardColumn } from "./CardColumn/PracticeItemCardColumn";
 import { ITotalTime, TotalTimeBuilder } from "./TotalTimeBuilder";
 import { EditPracticeItemDialog } from "./EditPracticeItemDialog";
-import { SuccessToaster } from "../Toaster";
+import { SuccessToaster, ErrorToaster } from "../Toaster";
+import PracticeItemService from "../Services/PracticeItemService";
 
 interface IPracticeItemLookup {
   [practiceItemId: string]: ICardProps;
@@ -26,6 +27,7 @@ interface State {
 }
 
 export class Wizard extends React.Component<any, State> {
+  private readonly practiceItemService: PracticeItemService;
   private goalCards: IGoalCardProps[] = [
     {
       id: "8b71a16a-9274-417e-8c47-65ac971f29b4",
@@ -50,17 +52,31 @@ export class Wizard extends React.Component<any, State> {
   public constructor(props: any) {
     super(props);
 
-    const practiceItems: IPracticeItemLookup = {};
-
-    this.getInitialPracticeItems().forEach(item => {
-      practiceItems[item.id] = item;
-    });
+    this.practiceItemService = new PracticeItemService();
 
     this.state = {
       practiceTimes: {},
-      practiceItems: practiceItems,
+      practiceItems: {},
       isEditMode: false
     };
+  }
+
+  public async componentDidMount() {
+    const practiceItemLookup: IPracticeItemLookup = {};
+    try {
+      // TODO: Show loading component in practice item column
+      const lastPracticeSessionItems = await this.practiceItemService.getLastPracticeSessionItems();
+
+      lastPracticeSessionItems.forEach(item => {
+        practiceItemLookup[item.id] = item;
+      });
+
+      this.setState({
+        practiceItems: practiceItemLookup
+      });
+    } catch {
+      ErrorToaster.show("Could not get practice items");
+    }
   }
 
   public render() {
@@ -107,26 +123,6 @@ export class Wizard extends React.Component<any, State> {
         )}
       </div>
     );
-  }
-
-  private getInitialPracticeItems(): ICardProps[] {
-    return [
-      {
-        id: "65979da7-41df-4c73-a7f3-dbdaa5910ebe",
-        title: "Learn Purple Haze",
-        description: "Play along with song and nail solo"
-      },
-      {
-        id: "0ebe0ad0-5fbd-494a-bc0a-09205e9d590e",
-        title: "Increase picking speed",
-        description: "Practice Paul Gilbert speed picking exericse"
-      },
-      {
-        id: "184e0b44-aa5b-4789-9cda-9abc7acf5674",
-        title: "Compose",
-        description: "Compose that new song"
-      }
-    ];
   }
 
   private getTotalPracticeTime(): ITotalTime {
