@@ -1,6 +1,6 @@
 import { ICardProps } from "../PracticeSession/CardColumn/Cards/Interfaces";
 
-const allPracticeItems = [
+var allPracticeItems: ICardProps[] = [
   {
     id: "65979da7-41df-4c73-a7f3-dbdaa5910ebe",
     title: "Learn Purple Haze",
@@ -22,5 +22,15 @@ export default class PracticeItemService {
     public getPracticeItemsByParentId(parentId: string): ICardProps[] {
         // For now, just return all practice items
         return allPracticeItems;
+    }
+
+    public editPracticeItem(editedItem: ICardProps) {
+        // Quick dirty logic until swap with API call
+        allPracticeItems = allPracticeItems.map(practiceItem => editedItem.id == practiceItem.id ? editedItem : practiceItem);
+    }
+
+    public deletePracticeItem(id: string) {
+        // Quick dirty logic until swap with API call
+        allPracticeItems = allPracticeItems.filter(practiceItem => practiceItem.id != id);
     }
 }
