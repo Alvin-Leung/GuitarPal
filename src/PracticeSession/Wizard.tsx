@@ -152,15 +152,26 @@ export class Wizard extends React.Component<Props, State> {
   };
 
   private onSavePracticeItem = (editedItem: ICardProps) => {
-    const updatedItems = { ...this.state.practiceItems };
-    updatedItems[editedItem.id] = editedItem;
+    this.props.practiceItemService
+      .editPracticeItem(editedItem)
+      .then(() => {
+        const updatedItems = { ...this.state.practiceItems };
+        updatedItems[editedItem.id] = editedItem;
 
-    this.setState({
-      isEditMode: false,
-      practiceItems: updatedItems
-    });
+        this.setState({
+          isEditMode: false,
+          practiceItems: updatedItems
+        });
 
-    SuccessToaster.show("Changes saved!");
+        SuccessToaster.show("Changes saved successfully!");
+      })
+      .catch(() => {
+        this.setState({
+          isEditMode: false,
+        });
+
+        ErrorToaster.show("Failed to save changes");
+      });
   };
 
   private onRemovePracticeItem = (id: string) => {
