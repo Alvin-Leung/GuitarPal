@@ -1,4 +1,9 @@
 import { ICardProps } from "../PracticeSession/CardColumn/Cards/Interfaces";
+import { IGoalCardProps } from "../PracticeSession/CardColumn/Cards/GoalCard";
+
+export interface GoalItemService {
+    getAllGoalItems(): Promise<IGoalCardProps[]>;
+}
 
 export interface PracticeItemService {
     getLastPracticeSessionItems(): Promise<ICardProps[]>;
