@@ -9,7 +9,7 @@ import { PracticeItemCardColumn } from "./CardColumn/PracticeItemCardColumn";
 import { ITotalTime, TotalTimeBuilder } from "./TotalTimeBuilder";
 import { EditPracticeItemDialog } from "./EditPracticeItemDialog";
 import { SuccessToaster, ErrorToaster } from "../Toaster";
-import FakePracticeItemService from "../Services/PracticeItemService";
+import { PracticeItemService } from "../Services/Interfaces";
 
 interface IPracticeItemLookup {
   [practiceItemId: string]: ICardProps;
@@ -19,6 +19,10 @@ interface IPracticeTimeLookup {
   [practiceItemId: string]: Date;
 }
 
+interface Props {
+  readonly practiceItemService: PracticeItemService;
+}
+
 interface State {
   readonly practiceItems: IPracticeItemLookup;
   readonly practiceTimes: IPracticeTimeLookup;
@@ -26,8 +30,7 @@ interface State {
   readonly editItemId?: string;
 }
 
-export class Wizard extends React.Component<any, State> {
-  private readonly practiceItemService: FakePracticeItemService;
+export class Wizard extends React.Component<Props, State> {
   private goalCards: IGoalCardProps[] = [
     {
       id: "8b71a16a-9274-417e-8c47-65ac971f29b4",
@@ -52,8 +55,6 @@ export class Wizard extends React.Component<any, State> {
   public constructor(props: any) {
     super(props);
 
-    this.practiceItemService = new FakePracticeItemService();
-
     this.state = {
       practiceTimes: {},
       practiceItems: {},
@@ -65,7 +66,7 @@ export class Wizard extends React.Component<any, State> {
     const practiceItemLookup: IPracticeItemLookup = {};
     try {
       // TODO: Show loading component in practice item column
-      const lastPracticeSessionItems = await this.practiceItemService.getLastPracticeSessionItems();
+      const lastPracticeSessionItems = await this.props.practiceItemService.getLastPracticeSessionItems();
 
       lastPracticeSessionItems.forEach(item => {
         practiceItemLookup[item.id] = item;

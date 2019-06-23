@@ -1,4 +1,5 @@
 import { ICardProps } from "../PracticeSession/CardColumn/Cards/Interfaces";
+import { PracticeItemService } from "./Interfaces";
 
 var allPracticeItems: ICardProps[] = [
   {
@@ -18,7 +19,7 @@ var allPracticeItems: ICardProps[] = [
   }
 ];
 
-export default class FakePracticeItemService {
+export default class FakePracticeItemService implements PracticeItemService {
   public async getLastPracticeSessionItems(): Promise<ICardProps[]> {
     // TODO: Replace this with API call for getting practice items from a user's last practice
     return this.returnItemsWithSimulatedDelay(allPracticeItems, 200);
@@ -29,12 +30,12 @@ export default class FakePracticeItemService {
     return allPracticeItems;
   }
 
-  public async editPracticeItem(editedItem: ICardProps) {
+  public async editPracticeItem(editedItem: ICardProps): Promise<void> {
     // TODO: Quick dirty logic until swap with API call
     allPracticeItems = allPracticeItems.map(practiceItem => editedItem.id == practiceItem.id ? editedItem : practiceItem);
   }
 
-  public async deletePracticeItem(id: string) {
+  public async deletePracticeItem(id: string): Promise<void> {
     // TODO: Quick dirty logic until swap with API call
     allPracticeItems = allPracticeItems.filter(practiceItem => practiceItem.id != id);
   }
