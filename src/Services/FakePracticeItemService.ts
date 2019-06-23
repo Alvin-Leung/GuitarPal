@@ -25,19 +25,25 @@ export default class FakePracticeItemService implements PracticeItemService {
     return this.returnItemsWithSimulatedDelay(allPracticeItems, 200);
   }
 
-  public async getPracticeItemsByParentId(parentId: string): Promise<ICardProps[]> {
+  public async getPracticeItemsByParentId(
+    parentId: string
+  ): Promise<ICardProps[]> {
     // TODO: Replace this with API call for getting practice items associated with goal item
     return allPracticeItems;
   }
 
   public async editPracticeItem(editedItem: ICardProps): Promise<void> {
     // TODO: Quick dirty logic until swap with API call
-    allPracticeItems = allPracticeItems.map(practiceItem => editedItem.id == practiceItem.id ? editedItem : practiceItem);
+    allPracticeItems = allPracticeItems.map(practiceItem =>
+      editedItem.id == practiceItem.id ? editedItem : practiceItem
+    );
   }
 
   public async deletePracticeItem(id: string): Promise<void> {
     // TODO: Quick dirty logic until swap with API call
-    allPracticeItems = allPracticeItems.filter(practiceItem => practiceItem.id != id);
+    allPracticeItems = allPracticeItems.filter(
+      practiceItem => practiceItem.id != id
+    );
   }
 
   private returnItemsWithSimulatedDelay(

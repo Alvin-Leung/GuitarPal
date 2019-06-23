@@ -1,15 +1,15 @@
 import { Button, Intent } from "@blueprintjs/core";
 import React from "react";
 import { Col, Row } from "react-bootstrap";
+import { GoalItemService, PracticeItemService } from "../Services/Interfaces";
+import { ErrorToaster, SuccessToaster } from "../Toaster";
 import { GoalCard, IGoalCardProps } from "./CardColumn/Cards/GoalCard";
 import { ICardProps } from "./CardColumn/Cards/Interfaces";
 import { PracticeItemCard } from "./CardColumn/Cards/PracticeItemCard";
 import { GoalCardColumn } from "./CardColumn/GoalCardColumn";
 import { PracticeItemCardColumn } from "./CardColumn/PracticeItemCardColumn";
-import { ITotalTime, TotalTimeBuilder } from "./TotalTimeBuilder";
 import { EditPracticeItemDialog } from "./EditPracticeItemDialog";
-import { SuccessToaster, ErrorToaster } from "../Toaster";
-import { PracticeItemService, GoalItemService } from "../Services/Interfaces";
+import { ITotalTime, TotalTimeBuilder } from "./TotalTimeBuilder";
 
 interface IPracticeItemLookup {
   [practiceItemId: string]: ICardProps;

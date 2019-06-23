@@ -23,7 +23,7 @@ var allGoalItems: IGoalCardProps[] = [
 ];
 
 export class FakeGoalItemService implements GoalItemService {
-    public async getAllGoalItems(): Promise<IGoalCardProps[]> {
-        return allGoalItems;
-    }
+  public async getAllGoalItems(): Promise<IGoalCardProps[]> {
+    return allGoalItems;
+  }
 }
