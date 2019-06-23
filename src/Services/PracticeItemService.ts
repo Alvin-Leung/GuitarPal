@@ -19,23 +19,34 @@ var allPracticeItems: ICardProps[] = [
 ];
 
 export default class PracticeItemService {
-    public async getLastPracticeSessionItems(): Promise<ICardProps[]> {
-        // TODO: Replace this with API call for getting practice items from a user's last practice
-        return allPracticeItems;
-    }
+  public async getLastPracticeSessionItems(): Promise<ICardProps[]> {
+    // TODO: Replace this with API call for getting practice items from a user's last practice
+    return this.returnItemsWithSimulatedDelay(allPracticeItems, 200);
+  }
 
-    public async getPracticeItemsByParentId(parentId: string): Promise<ICardProps[]> {
-        // TODO: Replace this with API call for getting practice items associated with goal item
-        return allPracticeItems;
-    }
+  public async getPracticeItemsByParentId(parentId: string): Promise<ICardProps[]> {
+    // TODO: Replace this with API call for getting practice items associated with goal item
+    return allPracticeItems;
+  }
 
-    public async editPracticeItem(editedItem: ICardProps) {
-        // TODO: Quick dirty logic until swap with API call
-        allPracticeItems = allPracticeItems.map(practiceItem => editedItem.id == practiceItem.id ? editedItem : practiceItem);
-    }
+  public async editPracticeItem(editedItem: ICardProps) {
+    // TODO: Quick dirty logic until swap with API call
+    allPracticeItems = allPracticeItems.map(practiceItem => editedItem.id == practiceItem.id ? editedItem : practiceItem);
+  }
 
-    public async deletePracticeItem(id: string) {
-        // TODO: Quick dirty logic until swap with API call
-        allPracticeItems = allPracticeItems.filter(practiceItem => practiceItem.id != id);
-    }
+  public async deletePracticeItem(id: string) {
+    // TODO: Quick dirty logic until swap with API call
+    allPracticeItems = allPracticeItems.filter(practiceItem => practiceItem.id != id);
+  }
+
+  private returnItemsWithSimulatedDelay(
+    itemsToReturn: ICardProps[],
+    delayInMilliseconds: number
+  ): Promise<ICardProps[]> {
+    return new Promise<ICardProps[]>(resolve => {
+      setTimeout(() => {
+        resolve(itemsToReturn);
+      }, delayInMilliseconds);
+    });
+  }
 }
