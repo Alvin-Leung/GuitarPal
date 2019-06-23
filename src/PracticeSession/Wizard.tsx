@@ -176,10 +176,13 @@ export class Wizard extends React.Component<Props, State> {
 
   private onRemovePracticeItem = (id: string) => {
     const updatedItems = { ...this.state.practiceItems };
+    const updatedTimes = { ...this.state.practiceTimes };
     delete updatedItems[id];
+    delete updatedTimes[id];
 
     this.setState({
-      practiceItems: updatedItems
+      practiceItems: updatedItems,
+      practiceTimes: updatedTimes
     });
   };
 
