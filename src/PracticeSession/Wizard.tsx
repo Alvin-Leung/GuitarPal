@@ -167,7 +167,7 @@ export class Wizard extends React.Component<Props, State> {
       })
       .catch(() => {
         this.setState({
-          isEditMode: false,
+          isEditMode: false
         });
 
         ErrorToaster.show("Failed to save changes");
