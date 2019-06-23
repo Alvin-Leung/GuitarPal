@@ -14,7 +14,14 @@ export interface IPracticeItemCardProps extends ICardProps {
   onDelete: (id: string) => void;
 }
 
-export class PracticeItemCard extends React.Component<IPracticeItemCardProps> {
+interface State {
+  showCloseButton: boolean;
+}
+
+export class PracticeItemCard extends React.Component<
+  IPracticeItemCardProps,
+  State
+> {
   public static defaultProps: IPracticeItemCardProps = {
     id: "",
     title: "",
@@ -25,10 +32,23 @@ export class PracticeItemCard extends React.Component<IPracticeItemCardProps> {
     onDelete: () => {}
   };
 
+  public constructor(props: IPracticeItemCardProps) {
+    super(props);
+    this.state = {
+      showCloseButton: false
+    };
+  }
+
   public render(): React.ReactNode {
     return (
-      <div className="card-div">
-        <MinimalCloseButton onClick={this.handleDelete} />
+      <div
+        className="card-div"
+        onMouseEnter={this.handleMouseEnter}
+        onMouseLeave={this.handleMouseLeave}
+      >
+        {this.state.showCloseButton && (
+          <MinimalCloseButton onClick={this.handleDelete} />
+        )}
         <Card interactive={true} elevation={Elevation.TWO} className="mt-2">
           <Row>
             <Col xs={6}>
@@ -57,6 +77,18 @@ export class PracticeItemCard extends React.Component<IPracticeItemCardProps> {
     );
   }
 
+  private handleMouseEnter = () => {
+    this.setState({
+      showCloseButton: true
+    });
+  };
+
+  private handleMouseLeave = () => {
+    this.setState({
+      showCloseButton: false
+    });
+  };
+
   private handleTimeChange = (newTime: Date) => {
     this.props.onTimeChange(newTime, this.props.id);
   };
@@ -67,5 +99,5 @@ export class PracticeItemCard extends React.Component<IPracticeItemCardProps> {
 
   private handleDelete = () => {
     this.props.onDelete(this.props.id);
-  }
+  };
 }
