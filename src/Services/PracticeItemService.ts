@@ -18,7 +18,7 @@ var allPracticeItems: ICardProps[] = [
   }
 ];
 
-export default class PracticeItemService {
+export default class FakePracticeItemService {
   public async getLastPracticeSessionItems(): Promise<ICardProps[]> {
     // TODO: Replace this with API call for getting practice items from a user's last practice
     return this.returnItemsWithSimulatedDelay(allPracticeItems, 200);

@@ -9,7 +9,7 @@ import { PracticeItemCardColumn } from "./CardColumn/PracticeItemCardColumn";
 import { ITotalTime, TotalTimeBuilder } from "./TotalTimeBuilder";
 import { EditPracticeItemDialog } from "./EditPracticeItemDialog";
 import { SuccessToaster, ErrorToaster } from "../Toaster";
-import PracticeItemService from "../Services/PracticeItemService";
+import FakePracticeItemService from "../Services/PracticeItemService";
 
 interface IPracticeItemLookup {
   [practiceItemId: string]: ICardProps;
@@ -27,7 +27,7 @@ interface State {
 }
 
 export class Wizard extends React.Component<any, State> {
-  private readonly practiceItemService: PracticeItemService;
+  private readonly practiceItemService: FakePracticeItemService;
   private goalCards: IGoalCardProps[] = [
     {
       id: "8b71a16a-9274-417e-8c47-65ac971f29b4",
@@ -52,7 +52,7 @@ export class Wizard extends React.Component<any, State> {
   public constructor(props: any) {
     super(props);
 
-    this.practiceItemService = new PracticeItemService();
+    this.practiceItemService = new FakePracticeItemService();
 
     this.state = {
       practiceTimes: {},
