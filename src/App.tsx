@@ -4,15 +4,17 @@ import "./App.css";
 import { Navbar } from "./Navbar/Navbar";
 import { Wizard } from "./PracticeSession/Wizard";
 import FakePracticeItemService from "./Services/FakePracticeItemService";
-import { PracticeItemService } from "./Services/Interfaces";
+import { PracticeItemService, GoalItemService } from "./Services/Interfaces";
+import { FakeGoalItemService } from "./Services/FakeGoalItemService";
 
 const App: React.FC = () => {
+  const goalItemService: GoalItemService = new FakeGoalItemService();
   const practiceItemService: PracticeItemService = new FakePracticeItemService();
 
   return (
     <Container fluid={true}>
       <Navbar />
-      <Wizard practiceItemService={practiceItemService} />
+      <Wizard goalItemService={goalItemService} practiceItemService={practiceItemService} />
     </Container>
   );
 };

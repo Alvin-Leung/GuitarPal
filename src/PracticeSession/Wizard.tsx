@@ -9,7 +9,7 @@ import { PracticeItemCardColumn } from "./CardColumn/PracticeItemCardColumn";
 import { ITotalTime, TotalTimeBuilder } from "./TotalTimeBuilder";
 import { EditPracticeItemDialog } from "./EditPracticeItemDialog";
 import { SuccessToaster, ErrorToaster } from "../Toaster";
-import { PracticeItemService } from "../Services/Interfaces";
+import { PracticeItemService, GoalItemService } from "../Services/Interfaces";
 
 interface IPracticeItemLookup {
   [practiceItemId: string]: ICardProps;
@@ -20,10 +20,12 @@ interface IPracticeTimeLookup {
 }
 
 interface Props {
+  readonly goalItemService: GoalItemService;
   readonly practiceItemService: PracticeItemService;
 }
 
 interface State {
+  readonly goalItems: IGoalCardProps[];
   readonly practiceItems: IPracticeItemLookup;
   readonly practiceTimes: IPracticeTimeLookup;
   readonly isEditMode: boolean;
@@ -31,31 +33,11 @@ interface State {
 }
 
 export class Wizard extends React.Component<Props, State> {
-  private goalCards: IGoalCardProps[] = [
-    {
-      id: "8b71a16a-9274-417e-8c47-65ac971f29b4",
-      title: "Learn Dorian scale",
-      description: "Master the dorian scale in 12 keys",
-      progress: 0.75
-    },
-    {
-      id: "74085497-c36a-43b5-8d5e-ecc1d3aeec28",
-      title: "Improvise",
-      description: "Improve improvisation chops over high-tempo funk track",
-      progress: 0.1
-    },
-    {
-      id: "38d9d028-97f7-4336-a01f-fe6837e53674",
-      title: "Compose",
-      description: "Finish composing ballad 'I Love My Guitar'",
-      progress: 0
-    }
-  ];
-
   public constructor(props: any) {
     super(props);
 
     this.state = {
+      goalItems: [],
       practiceTimes: {},
       practiceItems: {},
       isEditMode: false
@@ -63,21 +45,8 @@ export class Wizard extends React.Component<Props, State> {
   }
 
   public async componentDidMount() {
-    const practiceItemLookup: IPracticeItemLookup = {};
-    try {
-      // TODO: Show loading component in practice item column
-      const lastPracticeSessionItems = await this.props.practiceItemService.getLastPracticeSessionItems();
-
-      lastPracticeSessionItems.forEach(item => {
-        practiceItemLookup[item.id] = item;
-      });
-
-      this.setState({
-        practiceItems: practiceItemLookup
-      });
-    } catch {
-      ErrorToaster.show("Could not get practice items");
-    }
+    await this.UpdateStateWithGoals();
+    await this.UpdateStateWithLastPracticeSessionItems();
   }
 
   public render() {
@@ -85,7 +54,7 @@ export class Wizard extends React.Component<Props, State> {
       <div>
         <Row className="mt-3">
           <GoalCardColumn bootstrapColumnWidth={3}>
-            {this.goalCards.map(goal => (
+            {this.state.goalItems.map(goal => (
               <GoalCard key={goal.id} {...goal} />
             ))}
           </GoalCardColumn>
@@ -124,6 +93,34 @@ export class Wizard extends React.Component<Props, State> {
         )}
       </div>
     );
+  }
+
+  private async UpdateStateWithGoals() {
+    try {
+      const allGoalItems = await this.props.goalItemService.getAllGoalItems();
+
+      this.setState({
+        goalItems: allGoalItems
+      });
+    } catch {
+      ErrorToaster.show("Could not get goal items");
+    }
+  }
+
+  private async UpdateStateWithLastPracticeSessionItems() {
+    const practiceItemLookup: IPracticeItemLookup = {};
+    try {
+      // TODO: Show loading component in practice item column
+      const lastPracticeSessionItems = await this.props.practiceItemService.getLastPracticeSessionItems();
+      lastPracticeSessionItems.forEach(item => {
+        practiceItemLookup[item.id] = item;
+      });
+      this.setState({
+        practiceItems: practiceItemLookup
+      });
+    } catch {
+      ErrorToaster.show("Could not get practice items");
+    }
   }
 
   private getTotalPracticeTime(): ITotalTime {
