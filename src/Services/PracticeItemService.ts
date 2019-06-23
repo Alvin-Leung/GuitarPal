@@ -19,18 +19,18 @@ var allPracticeItems: ICardProps[] = [
 ];
 
 export default class PracticeItemService {
-    public getPracticeItemsByParentId(parentId: string): ICardProps[] {
-        // For now, just return all practice items
+    public async getPracticeItemsByParentId(parentId: string): Promise<ICardProps[]> {
+        // TODO: Replace this with logic to make API call for getting practice items associated with goal item
         return allPracticeItems;
     }
 
-    public editPracticeItem(editedItem: ICardProps) {
-        // Quick dirty logic until swap with API call
+    public async editPracticeItem(editedItem: ICardProps) {
+        // TODO: Quick dirty logic until swap with API call
         allPracticeItems = allPracticeItems.map(practiceItem => editedItem.id == practiceItem.id ? editedItem : practiceItem);
     }
 
-    public deletePracticeItem(id: string) {
-        // Quick dirty logic until swap with API call
+    public async deletePracticeItem(id: string) {
+        // TODO: Quick dirty logic until swap with API call
         allPracticeItems = allPracticeItems.filter(practiceItem => practiceItem.id != id);
     }
 }
