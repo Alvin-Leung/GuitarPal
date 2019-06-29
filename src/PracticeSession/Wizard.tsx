@@ -29,7 +29,7 @@ interface State {
   readonly practiceItems: IPracticeItemLookup;
   readonly practiceTimes: IPracticeTimeLookup;
   readonly isEditMode: boolean;
-  readonly editItemId?: string;
+  readonly editItemId: string;
 }
 
 export class Wizard extends React.Component<Props, State> {
@@ -40,7 +40,8 @@ export class Wizard extends React.Component<Props, State> {
       goalItems: [],
       practiceTimes: {},
       practiceItems: {},
-      isEditMode: false
+      isEditMode: false,
+      editItemId: ""
     };
   }
 
@@ -81,7 +82,7 @@ export class Wizard extends React.Component<Props, State> {
             </Button>
           </Col>
         </Row>
-        {this.state.editItemId && (
+        {this.state.isEditMode && (
           <EditPracticeItemDialog
             isOpen={this.state.isEditMode}
             initialPracticeCard={
@@ -156,19 +157,14 @@ export class Wizard extends React.Component<Props, State> {
         updatedItems[editedItem.id] = editedItem;
 
         this.setState({
-          editItemId: undefined,
-          isEditMode: false,
           practiceItems: updatedItems
         });
 
+        this.onCloseOrCancel();
         SuccessToaster.show("Changes saved successfully!");
       })
       .catch(() => {
-        this.setState({
-          editItemId: undefined,
-          isEditMode: false
-        });
-
+        this.onCloseOrCancel();
         ErrorToaster.show("Failed to save changes");
       });
   };
@@ -187,8 +183,8 @@ export class Wizard extends React.Component<Props, State> {
 
   private onCloseOrCancel = () => {
     this.setState({
-      editItemId: undefined,
-      isEditMode: false
+      isEditMode: false,
+      editItemId: ""
     });
   };
 }
