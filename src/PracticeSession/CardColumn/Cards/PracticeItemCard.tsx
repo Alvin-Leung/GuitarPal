@@ -6,6 +6,7 @@ import "./Card.css";
 import { EditLink } from "./EditLink";
 import { ICardProps } from "./Interfaces";
 import { MinimalCloseButton } from "./MinimalCloseButton";
+import Draggable, { DraggableEvent, DraggableData } from "react-draggable";
 
 export interface IPracticeItemCardProps extends ICardProps {
   practiceTime: Date;
@@ -16,6 +17,7 @@ export interface IPracticeItemCardProps extends ICardProps {
 
 interface State {
   showCloseButton: boolean;
+  isDragging: boolean;
 }
 
 export class PracticeItemCard extends React.Component<
@@ -35,47 +37,68 @@ export class PracticeItemCard extends React.Component<
   public constructor(props: IPracticeItemCardProps) {
     super(props);
     this.state = {
-      showCloseButton: false
+      showCloseButton: false,
+      isDragging: false
     };
   }
 
   public render(): React.ReactNode {
     return (
-      <div
-        className="card-div"
-        onMouseEnter={this.handleMouseEnter}
-        onMouseLeave={this.handleMouseLeave}
+      <Draggable
+        axis="y"
+        onStart={this.handleDragStart}
+        onStop={this.handleDragEnd}
       >
-        {this.state.showCloseButton && (
-          <MinimalCloseButton onClick={this.handleDelete} />
-        )}
-        <Card interactive={true} elevation={Elevation.TWO} className="mt-2">
-          <Row>
-            <Col xs={6}>
-              <EditLink
-                text={this.props.title}
-                onClick={this.handleLinkClick}
-              />
-            </Col>
-            <Col xs={6}>
-              <span className="float-right mr-1">
-                <TimePicker
-                  selectAllOnFocus={true}
-                  onChange={this.handleTimeChange}
-                  value={this.props.practiceTime}
+        <div
+          className="card-div"
+          onMouseEnter={this.handleMouseEnter}
+          onMouseLeave={this.handleMouseLeave}
+        >
+          {this.state.showCloseButton && (
+            <MinimalCloseButton onClick={this.handleDelete} />
+          )}
+          <Card elevation={Elevation.TWO} className="mt-2">
+            <Row>
+              <Col xs={6}>
+                <EditLink
+                  text={this.props.title}
+                  onClick={this.handleLinkClick}
                 />
-              </span>
-            </Col>
-          </Row>
-          <Row>
-            <Col xs={12}>
-              <p>{this.props.description}</p>
-            </Col>
-          </Row>
-        </Card>
-      </div>
+              </Col>
+              <Col xs={6}>
+                <span className="float-right mr-1">
+                  <TimePicker
+                    selectAllOnFocus={true}
+                    onChange={this.handleTimeChange}
+                    value={this.props.practiceTime}
+                  />
+                </span>
+              </Col>
+            </Row>
+            <Row>
+              <Col xs={12}>
+                <p>{this.props.description}</p>
+              </Col>
+            </Row>
+          </Card>
+        </div>
+      </Draggable>
     );
   }
+
+  private handleDragStart = (e: DraggableEvent, data: DraggableData) => {
+    this.setState({
+      isDragging: true,
+      showCloseButton: false
+    });
+  };
+
+  private handleDragEnd = (e: DraggableEvent, data: DraggableData) => {
+    this.setState({
+      isDragging: false,
+      showCloseButton: true
+    });
+  };
 
   private handleMouseEnter = () => {
     this.setState({
