@@ -156,6 +156,7 @@ export class Wizard extends React.Component<Props, State> {
         updatedItems[editedItem.id] = editedItem;
 
         this.setState({
+          editItemId: undefined,
           isEditMode: false,
           practiceItems: updatedItems
         });
@@ -164,6 +165,7 @@ export class Wizard extends React.Component<Props, State> {
       })
       .catch(() => {
         this.setState({
+          editItemId: undefined,
           isEditMode: false
         });
 
@@ -185,6 +187,7 @@ export class Wizard extends React.Component<Props, State> {
 
   private onCloseOrCancel = () => {
     this.setState({
+      editItemId: undefined,
       isEditMode: false
     });
   };
