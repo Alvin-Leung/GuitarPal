@@ -13,6 +13,7 @@ export interface IPracticeItemCardProps extends ICardProps {
   onTimeChange: (newTime: Date, id: string) => void;
   onEdit: (id: string) => void;
   onRemove: (id: string) => void;
+  onDrag: (id: string, data: DraggableData) => void;
 }
 
 interface State {
@@ -31,7 +32,8 @@ export class PracticeItemCard extends React.Component<
     practiceTime: new Date(0, 0, 0, 0, 0, 0, 0),
     onTimeChange: () => {},
     onEdit: () => {},
-    onRemove: () => {}
+    onRemove: () => {},
+    onDrag: () => {}
   };
 
   public constructor(props: IPracticeItemCardProps) {
@@ -44,7 +46,7 @@ export class PracticeItemCard extends React.Component<
 
   public render(): React.ReactNode {
     return (
-      <Draggable onStart={this.handleDragStart} onStop={this.handleDragEnd}>
+      <Draggable onStart={this.handleDragStart} onDrag={this.handleDragging} onStop={this.handleDragEnd}>
         <div
           className="card-div"
           onMouseEnter={this.handleMouseEnter}
@@ -89,6 +91,10 @@ export class PracticeItemCard extends React.Component<
       showCloseButton: false
     });
   };
+
+  private handleDragging = (e: DraggableEvent, data: DraggableData) => {
+    this.props.onDrag(this.props.id, data);
+  }
 
   private handleDragEnd = (e: DraggableEvent, data: DraggableData) => {
     this.setState({

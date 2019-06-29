@@ -1,5 +1,6 @@
 import React from "react";
 import { Col, Row } from "react-bootstrap";
+import { DraggableData } from "react-draggable";
 import { ITotalTime, TotalTimeBuilder } from "../TotalTimeBuilder";
 import { CardColumn } from "./CardColumn";
 import { ICardProps } from "./Cards/Interfaces";
@@ -71,6 +72,7 @@ export class PracticeItemCardColumn extends React.Component<
             onTimeChange={this.onPracticeTimeChange}
             onEdit={this.props.onEditPracticeItem}
             onRemove={this.onRemovePracticeItem}
+            onDrag={this.onDragPracticeItem}
             {...this.props.practiceItems[key]}
           />
         ))}
@@ -87,6 +89,10 @@ export class PracticeItemCardColumn extends React.Component<
     });
 
     this.props.onRemovePracticeItem(id);
+  };
+
+  private onDragPracticeItem = (id: string, data: DraggableData) => {
+    console.log(data);
   };
 
   private onPracticeTimeChange = (newTime: Date, id: string) => {
