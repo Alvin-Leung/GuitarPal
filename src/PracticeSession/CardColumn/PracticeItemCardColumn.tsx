@@ -1,9 +1,9 @@
 import React from "react";
 import { Col, Row } from "react-bootstrap";
-import { CardColumn } from "./CardColumn";
 import { ITotalTime, TotalTimeBuilder } from "../TotalTimeBuilder";
-import { PracticeItemCard } from "./Cards/PracticeItemCard";
+import { CardColumn } from "./CardColumn";
 import { ICardProps } from "./Cards/Interfaces";
+import { PracticeItemCard } from "./Cards/PracticeItemCard";
 
 interface IPracticeItemLookup {
   [practiceItemId: string]: ICardProps;
@@ -24,7 +24,10 @@ export interface IPracticeCardColumnProps {
   readonly onRemovePracticeItem: (id: string) => void;
 }
 
-export class PracticeItemCardColumn extends React.Component<IPracticeCardColumnProps, State> {
+export class PracticeItemCardColumn extends React.Component<
+  IPracticeCardColumnProps,
+  State
+> {
   public constructor(props: any) {
     super(props);
 
@@ -32,10 +35,10 @@ export class PracticeItemCardColumn extends React.Component<IPracticeCardColumnP
       practiceTimes: {}
     };
   }
-  
+
   public render() {
     const totalPracticeTime = this.getTotalPracticeTime();
-    
+
     const totalPracticeTimeText =
       totalPracticeTime.hours === 0
         ? `Total Time: ${totalPracticeTime.minutes} mins`
@@ -50,8 +53,8 @@ export class PracticeItemCardColumn extends React.Component<IPracticeCardColumnP
           <Row>
             <Col xs={5}>
               <span className="btn btn-sm">
-                <b>{React.Children.count(this.props.children)}</b>{" "}
-                Practice Items
+                <b>{React.Children.count(this.props.children)}</b> Practice
+                Items
               </span>
             </Col>
             <Col xs={7}>
@@ -78,7 +81,7 @@ export class PracticeItemCardColumn extends React.Component<IPracticeCardColumnP
   private onRemovePracticeItem = (id: string) => {
     const updatedTimes = { ...this.state.practiceTimes };
     delete updatedTimes[id];
-    
+
     this.setState({
       practiceTimes: updatedTimes
     });

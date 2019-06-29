@@ -44,15 +44,12 @@ export class PracticeItemCard extends React.Component<
 
   public render(): React.ReactNode {
     return (
-      <Draggable
-        axis="y"
-        onStart={this.handleDragStart}
-        onStop={this.handleDragEnd}
-      >
+      <Draggable onStart={this.handleDragStart} onStop={this.handleDragEnd}>
         <div
           className="card-div"
           onMouseEnter={this.handleMouseEnter}
           onMouseLeave={this.handleMouseLeave}
+          style={{ zIndex: this.state.isDragging ? 100 : "auto" }}
         >
           {this.state.showCloseButton && (
             <MinimalCloseButton onClick={this.handleDelete} />
