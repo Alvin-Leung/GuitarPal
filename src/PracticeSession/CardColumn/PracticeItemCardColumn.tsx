@@ -1,20 +1,46 @@
 import React from "react";
 import { Col, Row } from "react-bootstrap";
 import { CardColumn } from "./CardColumn";
-import { ITotalTime } from "../TotalTimeBuilder";
+import { ITotalTime, TotalTimeBuilder } from "../TotalTimeBuilder";
+import { PracticeItemCard } from "./Cards/PracticeItemCard";
+import { ICardProps } from "./Cards/Interfaces";
 
-export interface IPracticeCardColumnProps {
-  readonly totalPracticeTime: ITotalTime;
-  readonly bootstrapColumnWidth: number;
+interface IPracticeItemLookup {
+  [practiceItemId: string]: ICardProps;
 }
 
-export class PracticeItemCardColumn extends React.Component<IPracticeCardColumnProps> {
-  render() {
+interface IPracticeTimeLookup {
+  [practiceItemId: string]: Date;
+}
+
+interface State {
+  readonly practiceTimes: IPracticeTimeLookup;
+}
+
+export interface IPracticeCardColumnProps {
+  readonly practiceItems: IPracticeItemLookup;
+  readonly bootstrapColumnWidth: number;
+  readonly onEditPracticeItem: (id: string) => void;
+  readonly onRemovePracticeItem: (id: string) => void;
+}
+
+export class PracticeItemCardColumn extends React.Component<IPracticeCardColumnProps, State> {
+  public constructor(props: any) {
+    super(props);
+
+    this.state = {
+      practiceTimes: {}
+    };
+  }
+  
+  public render() {
+    const totalPracticeTime = this.getTotalPracticeTime();
+    
     const totalPracticeTimeText =
-      this.props.totalPracticeTime.hours === 0
-        ? `Total Time: ${this.props.totalPracticeTime.minutes} mins`
-        : `Total Time: ${this.props.totalPracticeTime.hours} hours ${
-            this.props.totalPracticeTime.minutes
+      totalPracticeTime.hours === 0
+        ? `Total Time: ${totalPracticeTime.minutes} mins`
+        : `Total Time: ${totalPracticeTime.hours} hours ${
+            totalPracticeTime.minutes
           } mins`;
 
     return (
@@ -35,8 +61,46 @@ export class PracticeItemCardColumn extends React.Component<IPracticeCardColumnP
             </Col>
           </Row>
         }
-        cards={this.props.children}
+        cards={Object.keys(this.props.practiceItems).map(key => (
+          <PracticeItemCard
+            key={key}
+            practiceTime={this.state.practiceTimes[key]}
+            onTimeChange={this.onPracticeTimeChange}
+            onEdit={this.props.onEditPracticeItem}
+            onRemove={this.onRemovePracticeItem}
+            {...this.props.practiceItems[key]}
+          />
+        ))}
       />
     );
+  }
+
+  private onRemovePracticeItem = (id: string) => {
+    const updatedTimes = { ...this.state.practiceTimes };
+    delete updatedTimes[id];
+    
+    this.setState({
+      practiceTimes: updatedTimes
+    });
+
+    this.props.onRemovePracticeItem(id);
+  };
+
+  private onPracticeTimeChange = (newTime: Date, id: string) => {
+    let practiceTimes = { ...this.state.practiceTimes };
+    practiceTimes[id] = newTime;
+    this.setState({
+      practiceTimes: practiceTimes
+    });
+  };
+
+  private getTotalPracticeTime(): ITotalTime {
+    const totalTimeBuilder = new TotalTimeBuilder();
+
+    Object.keys(this.props.practiceItems).forEach(key => {
+      totalTimeBuilder.AddTime(this.state.practiceTimes[key]);
+    });
+
+    return totalTimeBuilder.Build();
   }
 }

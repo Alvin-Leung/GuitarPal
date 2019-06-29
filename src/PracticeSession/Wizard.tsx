@@ -5,18 +5,12 @@ import { GoalItemService, PracticeItemService } from "../Services/Interfaces";
 import { ErrorToaster, SuccessToaster } from "../Toaster";
 import { GoalCard, IGoalCardProps } from "./CardColumn/Cards/GoalCard";
 import { ICardProps } from "./CardColumn/Cards/Interfaces";
-import { PracticeItemCard } from "./CardColumn/Cards/PracticeItemCard";
 import { GoalCardColumn } from "./CardColumn/GoalCardColumn";
 import { PracticeItemCardColumn } from "./CardColumn/PracticeItemCardColumn";
 import { EditPracticeItemDialog } from "./EditPracticeItemDialog";
-import { ITotalTime, TotalTimeBuilder } from "./TotalTimeBuilder";
 
 interface IPracticeItemLookup {
   [practiceItemId: string]: ICardProps;
-}
-
-interface IPracticeTimeLookup {
-  [practiceItemId: string]: Date;
 }
 
 interface Props {
@@ -27,7 +21,6 @@ interface Props {
 interface State {
   readonly goalItems: IGoalCardProps[];
   readonly practiceItems: IPracticeItemLookup;
-  readonly practiceTimes: IPracticeTimeLookup;
   readonly isEditMode: boolean;
   readonly editItemId: string;
 }
@@ -38,7 +31,6 @@ export class Wizard extends React.Component<Props, State> {
 
     this.state = {
       goalItems: [],
-      practiceTimes: {},
       practiceItems: {},
       isEditMode: false,
       editItemId: ""
@@ -61,20 +53,11 @@ export class Wizard extends React.Component<Props, State> {
           </GoalCardColumn>
 
           <PracticeItemCardColumn
-            totalPracticeTime={this.getTotalPracticeTime()}
+            practiceItems={this.state.practiceItems}
             bootstrapColumnWidth={4}
-          >
-            {Object.keys(this.state.practiceItems).map(key => (
-              <PracticeItemCard
-                key={key}
-                practiceTime={this.state.practiceTimes[key]}
-                onTimeChange={this.onPracticeTimeChange}
-                onEdit={this.onEditPracticeItem}
-                onRemove={this.onRemovePracticeItem}
-                {...this.state.practiceItems[key]}
-              />
-            ))}
-          </PracticeItemCardColumn>
+            onEditPracticeItem={this.onEditPracticeItem}
+            onRemovePracticeItem={this.onRemovePracticeItem}
+          />
 
           <Col xs={4}>
             <Button intent={Intent.SUCCESS} icon="arrow-right">
@@ -124,24 +107,6 @@ export class Wizard extends React.Component<Props, State> {
     }
   }
 
-  private getTotalPracticeTime(): ITotalTime {
-    const totalTimeBuilder = new TotalTimeBuilder();
-
-    Object.keys(this.state.practiceItems).forEach(key => {
-      totalTimeBuilder.AddTime(this.state.practiceTimes[key]);
-    });
-
-    return totalTimeBuilder.Build();
-  }
-
-  private onPracticeTimeChange = (newTime: Date, id: string) => {
-    let practiceTimes = { ...this.state.practiceTimes };
-    practiceTimes[id] = newTime;
-    this.setState({
-      practiceTimes: practiceTimes
-    });
-  };
-
   private onEditPracticeItem = (id: string) => {
     this.setState({
       isEditMode: true,
@@ -171,13 +136,10 @@ export class Wizard extends React.Component<Props, State> {
 
   private onRemovePracticeItem = (id: string) => {
     const updatedItems = { ...this.state.practiceItems };
-    const updatedTimes = { ...this.state.practiceTimes };
     delete updatedItems[id];
-    delete updatedTimes[id];
 
     this.setState({
       practiceItems: updatedItems,
-      practiceTimes: updatedTimes
     });
   };
 
