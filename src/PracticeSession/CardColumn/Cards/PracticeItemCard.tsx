@@ -2,14 +2,15 @@ import { Card, Elevation } from "@blueprintjs/core";
 import { TimePicker } from "@blueprintjs/datetime";
 import React from "react";
 import { Col, Row } from "react-bootstrap";
+import Draggable, { DraggableData, DraggableEvent } from "react-draggable";
 import "./Card.css";
 import { EditLink } from "./EditLink";
 import { ICardProps } from "./Interfaces";
 import { MinimalCloseButton } from "./MinimalCloseButton";
-import Draggable, { DraggableEvent, DraggableData } from "react-draggable";
 
 export interface IPracticeItemCardProps extends ICardProps {
   practiceTime: Date;
+  onMount: (id: string, position: DOMRect | ClientRect) => void;
   onTimeChange: (newTime: Date, id: string) => void;
   onEdit: (id: string) => void;
   onRemove: (id: string) => void;
@@ -30,11 +31,14 @@ export class PracticeItemCard extends React.Component<
     title: "",
     description: "",
     practiceTime: new Date(0, 0, 0, 0, 0, 0, 0),
+    onMount: () => {},
     onTimeChange: () => {},
     onEdit: () => {},
     onRemove: () => {},
     onDrag: () => {}
   };
+
+  private cardDivRef: React.RefObject<HTMLDivElement>;
 
   public constructor(props: IPracticeItemCardProps) {
     super(props);
@@ -42,16 +46,31 @@ export class PracticeItemCard extends React.Component<
       showCloseButton: false,
       isDragging: false
     };
+    this.cardDivRef = React.createRef();
+  }
+
+  componentDidMount() {
+    if (this.cardDivRef.current) {
+      this.props.onMount(
+        this.props.id,
+        this.cardDivRef.current.getBoundingClientRect()
+      );
+    }
   }
 
   public render(): React.ReactNode {
     return (
-      <Draggable onStart={this.handleDragStart} onDrag={this.handleDragging} onStop={this.handleDragEnd}>
+      <Draggable
+        onStart={this.handleDragStart}
+        onDrag={this.handleDragging}
+        onStop={this.handleDragEnd}
+      >
         <div
           className="card-div"
           onMouseEnter={this.handleMouseEnter}
           onMouseLeave={this.handleMouseLeave}
           style={{ zIndex: this.state.isDragging ? 100 : "auto" }}
+          ref={this.cardDivRef}
         >
           {this.state.showCloseButton && (
             <MinimalCloseButton onClick={this.handleDelete} />
@@ -94,7 +113,7 @@ export class PracticeItemCard extends React.Component<
 
   private handleDragging = (e: DraggableEvent, data: DraggableData) => {
     this.props.onDrag(this.props.id, data);
-  }
+  };
 
   private handleDragEnd = (e: DraggableEvent, data: DraggableData) => {
     this.setState({

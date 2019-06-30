@@ -69,6 +69,7 @@ export class PracticeItemCardColumn extends React.Component<
           <PracticeItemCard
             key={key}
             practiceTime={this.state.practiceTimes[key]}
+            onMount={(id: string, position: DOMRect | ClientRect) => console.log(id, position)}
             onTimeChange={this.onPracticeTimeChange}
             onEdit={this.props.onEditPracticeItem}
             onRemove={this.onRemovePracticeItem}
